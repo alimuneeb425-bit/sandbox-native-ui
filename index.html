@@ -3,192 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sandbox-Native Zero-Knowledge Pipeline</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 16px;
-            background-color: #070a13;
-            color: #e2e8f0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: #0f1424;
-            padding: 24px;
-            border-radius: 16px;
-            border: 1px solid #1e293b;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        h2 {
-            margin: 0 0 8px 0;
-            font-size: 22px;
-            color: #00ffcc;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        .subtitle {
-            color: #94a3b8;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #64748b;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-        textarea {
-            width: 100%;
-            height: 110px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            color: #fff;
-            padding: 14px;
-            box-sizing: border-box;
-            resize: none;
-            margin-bottom: 16px;
-            font-size: 14px;
-            font-family: inherit;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: #00ffcc;
-        }
-        button {
-            width: 100%;
-            background: #00ffcc;
-            color: #070a13;
-            border: none;
-            padding: 15px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-        }
-        .dashboard-panel {
-            margin-top: 24px; 
-            padding: 16px; 
-            background: rgba(15, 23, 42, 0.6); 
-            border: 1px solid rgba(0, 255, 204, 0.25); 
-            border-radius: 10px; 
-            font-family: monospace; 
-        }
-        .dashboard-title {
-            margin: 0 0 12px 0; 
-            color: #fff; 
-            font-size: 12px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
-        .metrics-grid {
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 8px; 
-            font-size: 11px; 
-            color: #94a3b8; 
-            margin-bottom: 14px; 
-            border-bottom: 1px solid rgba(0, 255, 204, 0.15); 
-            padding-bottom: 12px;
-        }
-        .metrics-grid strong {
-            color: #00ffcc;
-        }
-        #terminal-logs {
-            font-size: 11px; 
-            color: #38bdf8; 
-            max-height: 140px; 
-            overflow-y: auto; 
-            line-height: 1.5;
-            white-space: pre-line;
-        }
-    </style>
-</head>
-<body>
+    <title>AirGapStudio | Secure Native App Compiler & Live Simulator</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.js"></script>
+    <link rel="stylesheet" href="style.css">
 
-    <div class="container">
-        <h2>🤖 Sandbox-Native UI</h2>
-        <div class="subtitle">Zero-Knowledge execution pipeline. System synthesis bypasses persistent storage layout sectors completely.</div>
+    <script type="importmap">
+      { 
+        "imports": { 
+          "@huggingface/inference": "https://cdn.jsdelivr.net/npm/@huggingface/inference@3.3.0/+esm",
+          "fflate": "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm"
+        } 
+      }
+    </script>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col justify-between bg-slate-950">
+
+    <div class="max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6 flex-grow">
         
-        <label>System Prompter Input</label>
-        <textarea id="prompt-input" placeholder="Specify layout structure context or requirements..."></textarea>
-        
-        <button id="trigger-btn">Trigger Agentic Synthesis</button>
-        
-        <div class="dashboard-panel">
-            <div class="dashboard-title">🔒 RAM-Only Verification Node</div>
-            
-            <div class="metrics-grid">
-                <div>🛡️ Data Storage Layer: <strong>0 Bytes Written (Bypassed)</strong></div>
-                <div>⚡ Volatile Runtime Context: <strong>Active isolated memory block</strong></div>
-                <div>💥 Garbage Collection Status: <strong>Instant Purge Trigger Enabled</strong></div>
+        <header class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+                <div class="flex items-center gap-2">
+                    <span id="global-status-dot" class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                    <h1 class="text-lg font-bold tracking-tight text-white">AirGap<span class="text-indigo-400">Studio</span></h1>
+                </div>
+                <p class="text-xs text-slate-400 mt-0.5">Secure Local-First Native Simulator Engine. 100% Volatile RAM Execution.</p>
             </div>
+            <div class="w-full sm:w-auto">
+                <input type="password" id="hf-token-input" class="bg-slate-950 border border-slate-800 rounded-xl px-4 py-2 text-xs text-slate-300 placeholder-slate-600 focus:outline-none focus:border-indigo-500 w-full sm:w-64 transition-all" placeholder="Enter HuggingFace API Token (hf_...)">
+            </div>
+        </header>
+
+        <section id="gatekeeper-panel" class="bg-slate-900 border border-slate-800 rounded-2xl p-6 md:p-8 max-w-md mx-auto space-y-5 block mt-12">
+            <div class="text-center space-y-1.5">
+                <h2 class="text-base font-bold text-white">Initialize Simulation Enclave</h2>
+                <p class="text-xs text-slate-400 max-w-xs mx-auto">Open a zero-retention web sandboxed runtime pipeline.</p>
+            </div>
+            <button onclick="launchCleanWorkspace('Ephemeral RAM Sandbox')" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold p-3.5 rounded-xl transition-all cursor-pointer text-center tracking-wide shadow-lg shadow-indigo-900/40">
+                Launch Isolated Private Workspace
+            </button>
+        </section>
+
+        <main id="workspace-panel" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-6 opacity-0 transition-all duration-500">
             
-            <div id="terminal-logs">🟢 [NODE] Zero-Knowledge handshake completed successfully.
-🛡️ [COMPLIANCE] Verification parameters broadcasted to client interface.</div>
-        </div>
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800 space-y-5">
+                    
+                    <div class="bg-slate-950 border border-dashed border-slate-800 rounded-xl p-4 text-center space-y-2" id="dropzone-container">
+                        <div class="text-xs text-slate-400">🔄 Modify existing app? Drag your project .ZIP here:</div>
+                        <input type="file" id="import-zip-input" accept=".zip" class="hidden">
+                        <button onclick="document.getElementById('import-zip-input').click()" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-lg text-[11px] font-medium transition-all">
+                            Upload Base .ZIP
+                        </button>
+                        <p id="upload-status-label" class="text-[10px] font-mono text-indigo-400"></p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Target Device OS</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div onclick="selectBuildTarget('android')" id="target-card-android" class="border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 cursor-pointer transition-all text-center">
+                                <p class="text-xs font-bold text-white">Android Engine</p>
+                                <p class="text-[10px] text-slate-400">Kotlin / Compose</p>
+                            </div>
+                            <div onclick="selectBuildTarget('ios')" id="target-card-ios" class="border border-slate-800 bg-slate-950 rounded-xl p-3 cursor-pointer transition-all text-center">
+                                <p class="text-xs font-bold text-slate-400">iOS Engine</p>
+                                <p class="text-[10px] text-slate-500">SwiftUI Environment</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">App Layout Specifications</label>
+                        <textarea id="prompt-input" class="w-full h-28 bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 resize-none placeholder-slate-600" placeholder="Type app layout features (e.g., Crypto Wallet Dashboard with dark mode, transaction rows, balances...)"></textarea>
+                    </div>
+                    
+                    <div class="space-y-1">
+                        <div class="flex justify-between text-[11px]"><span class="text-slate-400">Streaming Compilations:</span><span id="progress-counter" class="text-indigo-400 font-bold">0%</span></div>
+                        <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden"><div id="progress-fill-bar" class="bg-indigo-500 w-0 h-full transition-all"></div></div>
+                    </div>
+                    
+                    <button id="compile-btn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-xl text-xs tracking-wider transition-all uppercase shadow-md shadow-indigo-950">Compile & Simulate App</button>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 space-y-3">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">🔒 Zero-Leak Cryptographic Telemetry</span>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-500">RAM Allocation:</span> <span id="live-heap-metric" class="text-indigo-400">0 MB</span></div>
+                        <div class="bg-slate-950 p-2 rounded-lg border border-slate-800"><span class="text-slate-500">Crypto Shuffles:</span> <span id="live-crypto-metric" class="text-emerald-400">0 ops</span></div>
+                    </div>
+                    <div class="w-full h-24 relative opacity-60"><canvas id="hardwareTelemetryCanvas"></canvas></div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                <div class="md:col-span-7 flex flex-col items-center justify-center">
+                    <div class="relative bg-slate-950 border-[6px] border-slate-800 rounded-[36px] w-[260px] h-[520px] shadow-2xl flex flex-col overflow-hidden ring-1 ring-slate-800">
+                        
+                        <div class="absolute top-2 left-1/2 transform -translate-x-1/2 h-4 w-24 bg-slate-800 rounded-full z-50 flex items-center justify-around px-2">
+                            <div class="w-1.5 h-1.5 rounded-full bg-slate-900"></div>
+                            <div class="w-10 h-1 bg-slate-900 rounded-full"></div>
+                        </div>
+
+                        <div class="flex-grow w-full h-full relative bg-slate-900 pt-8" id="simulator-screen-viewport">
+                            <canvas id="liveSimulatorCanvas" width="248" height="480" class="w-full h-full"></canvas>
+                            
+                            <div id="simulator-loader" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center space-y-2 hidden z-40">
+                                <div class="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                                <p class="text-[9px] font-mono text-indigo-400 tracking-wider uppercase" id="simulator-loader-text">Injecting Binary Layout...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:col-span-5 flex flex-col justify-between space-y-4">
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 flex-grow flex flex-col h-[300px]">
+                        <div class="text-[10px] font-bold text-slate-500 border-b border-slate-800 pb-2 uppercase tracking-wider flex justify-between">
+                            <span>⚡ Thread Monitor</span> <span id="pipeline-stopwatch" class="font-mono">0.00s</span>
+                        </div>
+                        <div class="space-y-1.5 py-3 overflow-y-auto text-[10px] flex-1">
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-0"><span class="text-slate-400">Agent 1: Blueprint Reader</span><span id="agent-status-0" class="text-slate-600 font-bold">STANDBY</span></div>
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-1"><span class="text-slate-400">Agent 2: Android Forge</span><span id="agent-status-1" class="text-slate-600 font-bold">STANDBY</span></div>
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-2"><span class="text-slate-400">Agent 3: Apple Builder</span><span id="agent-status-2" class="text-slate-600 font-bold">STANDBY</span></div>
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-3"><span class="text-slate-400">Agent 4: Zip Compactor</span><span id="agent-status-3" class="text-slate-600 font-bold">STANDBY</span></div>
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-4"><span class="text-slate-400">Agent 5: Syntax Healer</span><span id="agent-status-4" class="text-slate-600 font-bold">STANDBY</span></div>
+                            <div class="flex justify-between p-1.5 bg-slate-950 rounded-lg border border-slate-800/60" id="agent-wrapper-5"><span class="text-slate-400">Agent 6: Auto-Destruct</span><span id="agent-status-5" class="text-slate-600 font-bold">STANDBY</span></div>
+                        </div>
+                        <div class="bg-slate-950 rounded-xl p-2 border border-slate-850 h-24 overflow-y-auto font-mono text-[10px] text-indigo-400" id="terminal-output-bus">&gt; Secure execution loop online. Ready.</div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
     </div>
 
+    <script type="module" src="app.js"></script>
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const triggerBtn = document.getElementById('trigger-btn');
-        const promptInput = document.getElementById('prompt-input');
-        const terminal = document.getElementById('terminal-logs');
+        window.currentSelectedTarget = 'android'; 
+        window.importedContextPayload = ""; 
 
-        function logToTerminal(message) {
-            if (terminal) {
-                terminal.innerHTML += `\n${message}`;
-                terminal.scrollTop = terminal.scrollHeight;
-            }
+        function selectBuildTarget(platformKey) {
+            window.currentSelectedTarget = platformKey;
+            const androidCard = document.getElementById('target-card-android');
+            const iosCard = document.getElementById('target-card-ios');
+            [androidCard, iosCard].forEach(card => {
+                card.className = "border border-slate-800 bg-slate-950 rounded-xl p-3 cursor-pointer transition-all text-center";
+            });
+            document.getElementById(`target-card-${platformKey}`).className = "border-2 border-indigo-500 bg-indigo-950/40 rounded-xl p-3 cursor-pointer transition-all text-center";
         }
 
-        function runSecurePurgeDownload(inputData) {
-            const rawContent = `// STACK: Zero-Knowledge RAM-Only Synthesis Pipeline\n// Target Context: ${inputData}\n// Operations: Wiped from active memory cells successfully.`;
-            const secureBlob = new Blob([rawContent], { type: "text/plain" });
-            const dynamicBlobUrl = URL.createObjectURL(secureBlob);
-            
-            const dynamicHook = document.createElement("a");
-            dynamicHook.href = dynamicBlobUrl;
-            dynamicHook.download = "sandbox-architecture-payload.txt";
-            document.body.appendChild(dynamicHook);
-            dynamicHook.click();
-            
-            document.body.removeChild(dynamicHook);
-            setTimeout(() => {
-                URL.revokeObjectURL(dynamicBlobUrl); 
-                logToTerminal("\n💥 [⚠️ SYSTEM WARNING - PURGE SEQUENCE EXECUTED]");
-                logToTerminal("🗑️ [PURGE] Revoking active local browser blob reference handles...");
-                logToTerminal("🗑️ [PURGE] Volatile system memory registers cleared.");
-                logToTerminal("🔒 [COMPLIANCE] Audit check complete: 0 data tracks remaining inside network domain.");
-            }, 800);
+        function launchCleanWorkspace(workspaceNameString) {
+            const secretKey = document.getElementById('hf-token-input').value.trim();
+            if (!secretKey) { alert('Please insert a valid HuggingFace endpoint token to mount workspace RAM allocations.'); return; }
+            document.getElementById('gatekeeper-panel').classList.replace('block', 'hidden');
+            const mainDash = document.getElementById('workspace-panel');
+            mainDash.classList.replace('hidden', 'grid');
+            setTimeout(() => { mainDash.classList.replace('opacity-0', 'opacity-100'); }, 40);
+            document.getElementById('global-status-dot').classList.replace('bg-amber-400', 'bg-emerald-500');
+            if(window.initializeStudioTelemetry) { window.initializeStudioTelemetry(workspaceNameString); }
         }
-
-        triggerBtn?.addEventListener('click', () => {
-            const promptValue = promptInput.value.trim() || "Standard structural container specifications";
-            
-            logToTerminal("\n⏳ [01. ALLOCATION] Assigning empty ephemeral memory buffer segments...");
-            logToTerminal("💡 [TRANSPARENCY] Verified status: All hard-drive write operations locked out.");
-            
-            setTimeout(() => {
-                logToTerminal("🤖 [02. AGENT SYNTHESIS] Launching stateless layout build matrix...");
-                logToTerminal(`⚡ [PROCESS] Processing parameters: "${promptValue.substring(0, 32)}..."`);
-                logToTerminal("🔑 [SECURITY] Temporary payload encryption tokens generated.");
-            }, 1200);
-
-            setTimeout(() => {
-                logToTerminal("📦 [03. BUILD COMPLETE] Output parameters translated into compressed file streams.");
-                logToTerminal("📥 [STREAM] Handing over volatile asset data packet directly to client...");
-                runSecurePurgeDownload(promptValue);
-            }, 2800);
-        });
-    });
     </script>
-
 </body>
 </html>
