@@ -1,5 +1,42 @@
-body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-#terminal-output-bus::-webkit-scrollbar, div::-webkit-scrollbar { width: 3px; }
-#terminal-output-bus::-webkit-scrollbar-track, div::-webkit-scrollbar-track { background: transparent; }
-#terminal-output-bus::-webkit-scrollbar-thumb, div::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 999px; }
-#hardwareTelemetryCanvas, #liveSimulatorCanvas { width: 100% !important; height: 100% !important; image-rendering: pixelated; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+body { 
+    font-family: 'Inter', sans-serif; 
+    -webkit-font-smoothing: antialiased; 
+    background-color: #020617; 
+}
+
+/* Custom Minimalist Scrollers for Real-Time Hex Dump Arrays */
+#terminal-output-bus::-webkit-scrollbar, 
+#audit-crypt-keys::-webkit-scrollbar, 
+#audit-ram-dump::-webkit-scrollbar, 
+#audit-network-frames::-webkit-scrollbar,
+div::-webkit-scrollbar { 
+    width: 3px; 
+}
+
+#terminal-output-bus::-webkit-scrollbar-track, 
+div::-webkit-scrollbar-track { 
+    background: transparent; 
+}
+
+#terminal-output-bus::-webkit-scrollbar-thumb, 
+div::-webkit-scrollbar-thumb { 
+    background: #1e293b; 
+    border-radius: 999px; 
+}
+
+#hardwareTelemetryCanvas, 
+#liveSimulatorCanvas { 
+    width: 100% !important; 
+    height: 100% !important; 
+    image-rendering: pixelated; 
+}
+
+#agent-7-row { 
+    background: linear-gradient(90deg, #090514 0%, #020617 100%); 
+}
+
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+}
