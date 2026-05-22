@@ -3,72 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Autonomous 9-Agent Factory</title>
+    <title>Autonomous Secure Enclave Compiler</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="matrix-bg"></div>
+    
+    <div class="container">
+        <header>
+            <h1>GHOST_COMPILER // MULTI-AGENT_RAG</h1>
+            <div class="system-status">ENCLAVE: <span id="telemetry-percentage">10%</span></div>
+        </header>
 
-    <header class="studio-header">
-        <h1>AUTONOMOUS SOVEREIGN ENCLAVE</h1>
-        <p class="subtitle">Zero-Knowledge Client-Side 9-Agent Compilation Ledger</p>
-    </header>
-
-    <div class="card-panel">
-        <label class="panel-label" style="color: #6366f1;">Bring Your Own Key (BYOK) Cryptographic Vault</label>
-        <input type="password" id="byok-key-input" placeholder="Paste your custom AES-256 Key or Hugging Face Model Token..." 
-               style="width: 100%; background-color: #030712; padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #374151; color: #fbbf24; font-family: monospace; font-size: 0.8rem; outline: none;">
-    </div>
-
-    <div class="card-panel">
-        <label class="panel-label">Native Blueprint Application Schema</label>
-        <textarea id="prompt-input" placeholder="Enter functional micro-architecture parameters..."></textarea>
-        <button id="compile-btn" class="btn-primary">INITIALIZE SECURE NATIVE COMPILATION PIPELINE</button>
-    </div>
-
-    <div class="card-panel">
-        <label class="panel-label">Live Transparency Telemetry (Linear Sequence)</label>
-        <div class="agent-grid">
-            <div class="agent-badge"><span class="agent-meta">STAGE 01</span><span class="agent-title">RAG Router</span><span id="node-1" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 02</span><span class="agent-title">Knowledge Base</span><span id="node-2" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 03</span><span class="agent-title">App Weaver</span><span id="node-3" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 04</span><span class="agent-title">WASM Compiler</span><span id="node-4" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 05</span><span class="agent-title">Linker Core</span><span id="node-5" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 06</span><span class="agent-title">QA VM Emulator</span><span id="node-6" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 07</span><span class="agent-title">Crypt Signer</span><span id="node-7" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 08</span><span class="agent-title">RAM Shredder</span><span id="node-8" class="agent-status status-standby">STANDBY</span></div>
-            <div class="agent-badge"><span class="agent-meta">STAGE 09</span><span class="agent-title">Watchdog Audit</span><span id="node-9" class="agent-status status-standby">STANDBY</span></div>
-        </div>
-
-        <div class="live-terminal">
-            <div class="terminal-header"><span>REAL-TIME LIVE COMPILATION LOG</span><span id="telemetry-percentage">0% COMPLETED</span></div>
-            <div id="terminal-screen" class="terminal-screen">&gt; Standing by. Pipeline idle. Explicit telemetry mapping active.</div>
-        </div>
-    </div>
-
-    <div class="card-panel font-mono">
-        <label class="panel-label danger">Hardware-Level Active Variable Memory Registry</label>
-        <div class="inspection-ledger">
-            <div class="inspect-box">
-                <div class="inspect-title"><span>ACTIVE COMPILING TRACK:</span><span id="ins-symbol-state" class="secure-tag">NULL</span></div>
-                <div id="inspect-symbol" class="inspect-data">0x0000000000000000</div>
+        <main>
+            <div class="platform-container">
+                <button type="button" id="platform-android" class="platform-btn active-platform">Android App (APK)</button>
+                <button type="button" id="platform-ios" class="platform-btn">iOS App (IPA)</button>
+                <button type="button" id="platform-both" class="platform-btn">Both Platforms</button>
             </div>
-            <div class="inspect-box">
-                <div class="inspect-title"><span>CURRENT PROCESS TARGET:</span></div>
-                <div id="inspect-intent" class="inspect-data">WAITING_FOR_TOKEN_STREAM</div>
+
+            <div class="input-group">
+                <label for="byok-key-input">ENCRYPTION SHIELD KEY (BYOK):</label>
+                <input type="password" id="byok-key-input" placeholder="Enter private passphrase for AES-GCM local locking...">
             </div>
-            <div class="inspect-box">
-                <div class="inspect-title"><span>EMULATOR RUNTIME STATS:</span></div>
-                <div id="inspect-qa-trace" class="inspect-data">VM_CORE_INACTIVE</div>
+
+            <div class="input-group">
+                <label for="prompt-input">APP BLUEPRINT CONFIGURATION SPECIFICATIONS:</label>
+                <textarea id="prompt-input" rows="6" placeholder="Describe the application features, layout, and behaviors... All 9 RAG agents will query Hugging Face models to compile this natively..."></textarea>
             </div>
-            <div class="inspect-box">
-                <div class="inspect-title"><span>COMPILED OUTPUT ARCHIVE:</span></div>
-                <div id="inspect-target" class="inspect-data">NONE_GENERATED</div>
+
+            <button type="button" id="compile-btn">INITIALIZE SECURE PIPELINE</button>
+
+            <div class="dashboard-grid">
+                <div class="terminal-wrapper">
+                    <h3>LIVE AUDIT LOG (TRANSPARENT TELEMETRY)</h3>
+                    <div id="terminal-screen">> System ready. Standing by for secure connection handshake...</div>
+                </div>
+
+                <div class="pipeline-flow">
+                    <h3>AGENT STATE MONITOR</h3>
+                    <div class="node-row"><span>NODE_1: Cryptographic Shield</span> <div id="node-1" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_2: HF Vector Context</span> <div id="node-2" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_3: Structural Layout</span> <div id="node-3" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_4: Logical Synthesis</span> <div id="node-4" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_5: Threat Guard Scan</span> <div id="node-5" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_6: Toolchain Compiler</span> <div id="node-6" class="agent-status status-idle">IDLE</div></div>
+                    <div class="node-row"><span>NODE_7: Artifact Purge Sequence</span> <div id="node-7" class="agent-status status-idle">IDLE</div></div>
+                </div>
             </div>
-        </div>
-        <div class="inspect-box" style="margin-top: 1rem;">
-            <div class="inspect-title"><span>PHYSICAL CHIP SECTOR SHREDDER REGISTER:</span><span id="shred-badge" class="secure-tag">ACTIVE_MONITOR</span></div>
-            <div id="inspect-hex-stream" class="hex-stream">EE DD AA 77 FF 00 22 99 88 44 11 55 66 22 33 00 44 FF AA DD EE BB CC 00 11 22</div>
-        </div>
+        </main>
     </div>
 
     <script src="app.js"></script>
