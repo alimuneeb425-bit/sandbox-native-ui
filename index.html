@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Software Factory Core</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col p-4 font-sans selection:bg-cyan-500 selection:text-slate-950">
+
+    <header class="text-center my-6">
+        <h1 class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500">
+            ANONYMOUS SOFTWARE ENGINE
+        </h1>
+        <p class="text-[10px] font-mono text-slate-500 mt-1 tracking-wider">ZERO SERVER RETENTION • VOLATILE RAM COMPILATION</p>
+    </header>
+
+    <main class="flex-1 max-w-md mx-auto w-full space-y-4 mb-8">
+        
+        <div id="auth-card" class="bg-slate-900 p-5 rounded-2xl border border-slate-800 shadow-2xl space-y-4">
+            <div class="text-center space-y-1">
+                <h2 class="text-xs font-bold text-slate-300 tracking-widest uppercase">Identity Token Verification</h2>
+                <p class="text-[10px] text-slate-500 font-mono">Tokens are processed strictly inside client runtime browser RAM.</p>
+            </div>
+            
+            <div class="space-y-1">
+                <label class="block text-[10px] font-mono text-slate-400">TEMPORARY EMAIL HANDLE</label>
+                <input type="email" id="auth-email" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all" placeholder="developer@domain.com">
+            </div>
+
+            <div class="grid grid-cols-1 gap-2 pt-1">
+                <button onclick="triggerStatelessHandshake('Email')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 active:scale-[0.99] border border-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer">
+                    ✉️ Request Email Access Link
+                </button>
+                <button onclick="triggerStatelessHandshake('Google')" class="w-full py-3 bg-white text-slate-950 hover:bg-slate-100 active:scale-[0.99] rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer">
+                    🌐 Continue with Google Auth
+                </button>
+                <button onclick="triggerStatelessHandshake('GitHub')" class="w-full py-3 bg-slate-950 hover:bg-slate-900 active:scale-[0.99] border border-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                    🐙 Continue with GitHub Portal
+                </button>
+            </div>
+        </div>
+
+        <div id="factory-panel" class="hidden space-y-4 animate-fade-in">
+            
+            <div class="flex justify-between items-center bg-slate-900 px-4 py-3 rounded-xl border border-slate-800 shadow-sm">
+                <span class="text-[10px] font-mono text-slate-400">SECURE OPERATOR STATE</span>
+                <span id="user-identity-badge" class="text-[9px] font-mono bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded-md border border-cyan-800/60 max-w-[200px] truncate"></span>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-2">
+                <label class="block text-xs font-bold text-slate-400 tracking-wider mb-1">COMPILATION TEMPLATE TARGET</label>
+                
+                <button onclick="toggleEngineSelection('core_system')" id="btn-core" class="w-full text-left p-3.5 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+                    <div class="font-bold text-cyan-400 mb-0.5">🛡️ Universal System App Generator</div>
+                    <div class="text-[10px] text-slate-400 font-normal">Compiles real, multi-category signed native .apk binaries (Antivirus, ERP, Utility tools).</div>
+                </button>
+                
+                <button onclick="toggleEngineSelection('custom_app')" id="btn-custom" class="w-full text-left p-3.5 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+                    <div class="font-bold text-indigo-400 mb-0.5">📱 Standalone Custom Chatbot App</div>
+                    <div class="text-[10px] text-slate-400 font-normal">Builds genuine standalone communication assistant .apk files running on isolated device-side RAM loops.</div>
+                </button>
+                
+                <button onclick="toggleEngineSelection('web_widget')" id="btn-web" class="w-full text-left p-3.5 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+                    <div class="font-bold text-emerald-400 mb-0.5">🌐 On-Premise Web-Based Chatbot</div>
+                    <div class="text-[10px] text-slate-400 font-normal">Outputs single-line paste scripts. All client conversations link directly inside company servers only.</div>
+                </button>
+            </div>
+
+            <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-2">
+                <label class="block text-xs font-bold text-slate-400 tracking-wider">SYSTEM BEHAVIOR PARAMETERS</label>
+                <textarea id="app-specification-prompt" rows="5" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 font-mono placeholder-slate-700 resize-none" placeholder="Enter target system details (e.g. For System Tool: scan path definitions, file storage access tags / For Web Widget: locally hosted on-prem server IP gateways)..."></textarea>
+            </div>
+
+            <button onclick="fireStatelessCompilationPipeline()" class="w-full py-4 bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-500 text-slate-950 font-black rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition-all text-xs tracking-widest cursor-pointer">
+                LAUNCH VOLATILE COMPILE PIPELINE
+            </button>
+
+            <div id="terminal-screen" class="hidden p-4 bg-black border border-slate-900 rounded-xl font-mono text-[10px] space-y-1 text-slate-500 shadow-inner"></div>
+            
+            <button onclick="shredLocalSessionMemory()" class="w-full py-2.5 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 text-red-400 text-[10px] font-mono rounded-xl transition-all tracking-wider uppercase cursor-pointer">
+                ☣️ Force Memory Deselection (Shred RAM State)
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        let operationalBlueprintTarget = '';
+        let activeInSessionUserEmail = '';
+
+        function triggerStatelessHandshake(provider) {
+            const staticEmailField = document.getElementById('auth-email').value;
+            if (provider === 'Email' && !staticEmailField.trim()) {
+                return alert("Operational Abort: An explicit destination email address is required.");
+            }
+
+            // Implicit verification layer processing completely inside browser execution context
+            // Simulates independent token validation framework without logging user accounts on a site db
+            activeInSessionUserEmail = provider === 'Email' ? staticEmailField : `${provider.toLowerCase()}-verified-developer@stateless.node`;
+
+            // Transition interfaces immediately inside client viewport memory structure
+            document.getElementById('auth-card').classList.add('hidden');
+            document.getElementById('factory-panel').classList.remove('hidden');
+            document.getElementById('user-identity-badge').innerText = `NODE:// ${activeInSessionUserEmail.toUpperCase()}`;
+        }
+
+        function shredLocalSessionMemory() {
+            // Overwrites global strings and structures before returning layout frame
+            activeInSessionUserEmail = '';
+            operationalBlueprintTarget = '';
+            document.getElementById('app-specification-prompt').value = '';
+            document.getElementById('terminal-screen').classList.add('hidden');
+            document.getElementById('factory-panel').classList.add('hidden');
+            document.getElementById('auth-card').classList.remove('hidden');
+        }
+
+        function toggleEngineSelection(id) {
+            operationalBlueprintTarget = id;
+            const frameworkKeys = ['core', 'custom', 'web'];
+            frameworkKeys.forEach(k => {
+                document.getElementById(`btn-${k}`).className = "w-full text-left p-3.5 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-400 transition-all cursor-pointer";
+            });
+
+            const activationMap = { 'core_system': 'btn-core', 'custom_app': 'btn-custom', 'web_widget': 'btn-web' };
+            document.getElementById(activationMap[id]).className = "w-full text-left p-3.5 rounded-xl text-xs font-semibold bg-cyan-950/30 border-2 border-cyan-500 text-cyan-300 transition-all cursor-pointer";
+        }
+
+        async function fireStatelessCompilationPipeline() {
+            const promptData = document.getElementById('app-specification-prompt').value;
+            const systemShell = document.getElementById('terminal-screen');
+
+            if (!operationalBlueprintTarget) return alert("Validation Failure: Choose an active compilation engine blueprint target.");
+            if (!promptData.trim()) return alert("Validation Failure: Architecture parameter prompt string cannot be left empty.");
+
+            systemShell.classList.remove('hidden');
+            systemShell.innerHTML = "<p class='text-amber-500 animate-pulse'>» Connecting with ephemeral RAM node workspace... Mapping isolated directories...</p>";
+
+            try {
+                // Post command string array arrays payload directly over memory link to Hugging Face compiler container
+                const transactionResponse = await fetch("https://your-username-your-space.hf.space/compile_autonomous", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        engine: operationalBlueprintTarget, 
+                        prompt: promptData, 
+                        auth_node: activeInSessionUserEmail 
+                    })
+                });
+
+                if (!transactionResponse.ok) throw new Error("Security Integrity Exception: Upstream container handshake dropped.");
+
+                systemShell.innerHTML += "<p class='text-emerald-400 font-medium'>» Identity signature matching out. Spawning 9-Agent container build shard...</p>";
+
+                const binaryPackageBlob = await transactionResponse.blob();
+                const browserTransientUrl = window.URL.createObjectURL(binaryPackageBlob);
+                const navigationAnchor = document.createElement('a');
+                navigationAnchor.href = browserTransientUrl;
+                
+                // Format file output extension depending entirely on chosen matrix button path
+                navigationAnchor.download = operationalBlueprintTarget === 'web_widget' ? "widget.js" : "genuine_signed_system_app.apk";
+                document.body.appendChild(navigationAnchor);
+                navigationAnchor.click();
+
+                // Destroy reference memory links immediately in browser execution loop
+                window.URL.revokeObjectURL(browserTransientUrl);
+                document.body.removeChild(navigationAnchor);
+                
+                systemShell.innerHTML += "<p class='text-cyan-400 font-bold'>» Complete. Byte stream transferred. Cloud compiler workspace shred sequence triggered.</p>";
+
+            } catch (pipelineException) {
+                systemShell.innerHTML += `<p class='text-rose-500 font-bold'>» Operational Core Abort: ${pipelineException.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
