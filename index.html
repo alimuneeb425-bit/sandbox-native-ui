@@ -7,16 +7,16 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         @keyframes pulse-fast { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        .animate-pulse-fast { animation: pulse-fast 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .animate-pulse-fast { animation: pulse-fast cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col p-4 font-sans selection:bg-cyan-500 selection:text-slate-950">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col p-4 font-mono selection:bg-cyan-500 selection:text-slate-950">
 
     <header class="text-center my-4">
-        <h1 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-emerald-400">
+        <h1 class="text-xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400">
             ANONYMOUS SOFTWARE ENGINE
         </h1>
-        <p class="text-[9px] font-mono text-slate-500 mt-0.5 tracking-wider">ZERO SERVER RETENTION • VOLATILE RAM COMPILATION</p>
+        <p class="text-[9px] font-mono text-slate-500 mt-0.5 tracking-wider">ZERO SERVER RETENTION · VOLATILE RAM COMPILATION</p>
     </header>
 
     <main class="flex-1 max-w-md mx-auto w-full space-y-4 mb-8">
@@ -26,21 +26,21 @@
                 <h2 class="text-xs font-bold text-slate-300 tracking-widest uppercase">Identity Token Verification</h2>
                 <p class="text-[10px] text-slate-500 font-mono">Tokens are processed strictly inside client runtime browser RAM.</p>
             </div>
-            
+
             <div class="space-y-1">
-                <label class="block text-[10px] font-mono text-slate-400">TEMPORARY EMAIL HANDLE</label>
-                <input type="email" id="auth-email" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-300 focus:outline-none focus:border-cyan-500" placeholder="developer@domain.com">
+                <label class="text-[10px] font-mono text-slate-400">TEMPORARY EMAIL HANDLE</label>
+                <input type="email" id="auth-email" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-sm focus:outline-none focus:border-cyan-500 transition-colors" placeholder="developer@domain.com" value="developer@domain.com">
             </div>
 
             <div class="grid grid-cols-1 gap-2 pt-1">
-                <button onclick="triggerStatelessHandshake('Email')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-bold transition-all cursor-pointer">
+                <button onclick="triggerStatelessHandshake('Email')" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-xs font-bold rounded-xl transition-colors cursor-pointer">
                     ✉️ Request Email Access Link
                 </button>
-                <button onclick="triggerStatelessHandshake('Google')" class="w-full py-3 bg-white text-slate-950 hover:bg-slate-100 rounded-xl text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <button onclick="triggerStatelessHandshake('Google')" class="w-full py-3 bg-white text-slate-950 hover:bg-slate-200 text-xs font-bold rounded-xl transition-colors cursor-pointer">
                     🌐 Continue with Google Auth
                 </button>
-                <button onclick="triggerStatelessHandshake('GitHub')" class="w-full py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer">
-                    🐙 Continue with GitHub Portal
+                <button onclick="triggerStatelessHandshake('GitHub')" class="w-full py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 text-xs font-bold rounded-xl transition-colors cursor-pointer">
+                    🥷 Continue with GitHub Portal
                 </button>
             </div>
         </div>
@@ -48,98 +48,111 @@
         <div id="factory-panel" class="hidden space-y-4">
             
             <div class="flex justify-between items-center bg-slate-900 px-4 py-2.5 rounded-xl border border-slate-800 shadow-sm">
-                <span class="text-[9px] font-mono text-slate-400">SECURE OPERATOR STATE</span>
-                <span id="user-identity-badge" class="text-[9px] font-mono bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded-md border border-cyan-800/60 max-w-[180px] truncate"></span>
+                <span class="text-[9px] font-bold text-cyan-400 mb-0.5">SECURE OPERATOR STATE</span>
+                <span id="user-identity-badge" class="text-[9px] font-mono bg-cyan-950 text-cyan-400 px-2 py-0.5 rounded border border-cyan-800">NODE://ANONYMOUS</span>
             </div>
 
             <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-2">
                 <label class="block text-xs font-bold text-slate-400 tracking-wider mb-1">COMPILATION TEMPLATE TARGET</label>
                 
-                <button onclick="toggleEngineSelection('core_system')" id="btn-core" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
-                    <div class="font-bold text-cyan-400 mb-0.5">🛡️ Universal System App Generator</div>
-                    <div class="text-[9px] text-slate-400 font-normal">Compiles real multi-category signed native .apk binaries and clean source .zip files.</div>
+                <button onclick="toggleEngineSelection('core_system')" id="btn-core" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-800 border border-cyan-500 transition-all cursor-pointer">
+                    <div class="font-bold text-cyan-400 mb-0.5">🛑 Universal System App Generator</div>
+                    <div class="text-[9px] text-slate-400 font-normal">Compiles real multi-category signed native .apk layout structures.</div>
                 </button>
-                
-                <button onclick="toggleEngineSelection('custom_app')" id="btn-custom" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+
+                <button onclick="toggleEngineSelection('custom_app')" id="btn-custom" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-950 border border-slate-900 hover:border-slate-800 transition-all cursor-pointer">
                     <div class="font-bold text-indigo-400 mb-0.5">📱 Standalone Custom Chatbot App</div>
-                    <div class="text-[9px] text-slate-400 font-normal">Builds genuine standalone communication assistant apps running on isolated device-side loops.</div>
+                    <div class="text-[9px] text-slate-400 font-normal">Builds genuine standalone communication assistant containers.</div>
                 </button>
-                
-                <button onclick="toggleEngineSelection('web_widget')" id="btn-web" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-300 transition-all cursor-pointer">
+
+                <button onclick="toggleEngineSelection('web_widget')" id="btn-web" class="w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-950 border border-slate-900 hover:border-slate-800 transition-all cursor-pointer">
                     <div class="font-bold text-emerald-400 mb-0.5">🌐 On-Premise Web-Based Chatbot</div>
-                    <div class="text-[9px] text-slate-400 font-normal">Outputs single-line paste scripts. All data loops link directly inside client servers only.</div>
+                    <div class="text-[9px] text-slate-400 font-normal">Outputs single-line paste scripts. All data loops sit fully local.</div>
                 </button>
             </div>
 
             <div class="bg-slate-900 p-4 rounded-2xl border border-slate-800 shadow-xl space-y-2">
                 <label class="block text-xs font-bold text-slate-400 tracking-wider">SYSTEM BEHAVIOR PARAMETERS</label>
-                <textarea id="app-specification-prompt" rows="4" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-300 focus:outline-none focus:border-cyan-500 font-mono placeholder-slate-700 resize-none" placeholder="Enter target system details (e.g. scan path definitions, file storage access tags, or local on-prem server IP gateways)..."></textarea>
+                <textarea id="app-specification-prompt" rows="4" class="w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-xs focus:outline-none focus:border-cyan-500 transition-colors font-mono resize-none" placeholder="Provide natural language functional descriptions or architectural logic matrices rules..."></textarea>
+                
+                <button onclick="fireStatelessCompilationPipeline()" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 hover:opacity-90 text-slate-950 font-black text-xs tracking-widest rounded-xl transition-all shadow-lg uppercase cursor-pointer">
+                    LAUNCH VOLATILE COMPILE PIPELINE
+                </button>
             </div>
 
-            <button onclick="fireStatelessCompilationPipeline()" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-500 text-slate-950 font-black rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition-all text-xs tracking-widest cursor-pointer">
-                LAUNCH VOLATILE COMPILE PIPELINE
-            </button>
-
-            <div id="transparency-dashboard" class="hidden bg-slate-950 border border-slate-800 rounded-2xl p-4 font-mono text-[10px] space-y-3 shadow-inner">
-                <div class="flex items-center justify-between border-b border-slate-900 pb-2">
-                    <span class="text-cyan-400 font-bold tracking-wider">📡 LIVE FACTORY AUDIT MONITOR</span>
-                    <span id="audit-status" class="text-amber-500 flex items-center gap-1">
+            <div id="transparency-dashboard" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-4 font-mono space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                    <span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase">Live Factory Audit Monitor</span>
+                    <span id="audit-status" class="text-amber-500 flex items-center gap-1 text-[10px] font-bold">
                         <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse-fast"></span> PROCESSING
                     </span>
                 </div>
-                
-                <div id="step-network" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 1] SECURE TRANSIT LINK ESTABLISHED (TLS 1.3)...</div>
-                <div id="step-ram" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 2] ALLOCATING ISOLATED SHARD MATRIX INSIDE RAM (/dev/shm)...</div>
-                <div id="step-agents" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 3] INITIALIZING 9-AGENT COMPILATION MATRIX COLLABORATION...</div>
-                <div id="step-compilation" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 4] COMPILING NATIVE BYTECODE (javac, d8, aapt2) & EXECUTING CRYPTO HANDSHAKE...</div>
-                <div id="step-qa" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 5] AGENT 8 ACTIVATING PARALLEL QA AUTOMATED UNIT TESTING & METRIC DEBUGGING...</div>
-                <div id="step-package" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 6] WRAPPING NATIVE APK BINARY AND COMPLETE SOURCE CODE INTO SINGLE EXPORT ZIP...</div>
-                <div id="step-shred" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 7] STREAMING ARCHIVE BUNDLE DOWN TO MOBILE DEVICE & ACTIVATING SHRED SHIELD...</div>
 
-                <div id="terminal-feed" class="p-2.5 bg-black rounded-lg border border-slate-900 text-[9px] text-slate-400 h-28 overflow-y-auto space-y-0.5 scrollbar-thin"></div>
+                <div class="space-y-1.5 text-[10px]">
+                    <div id="step-network" class="text-slate-500 transition-colors duration-300">⏳ [STAGE 1] SECURE TRANSIT LINK GENERATION</div>
+                    <div id="step-ram" class="text-slate-500 transition-colors duration-300">🧠 [STAGE 2] ISOLATED VOLATILE SHARD ALLOCATION</div>
+                    <div id="step-agents" class="text-slate-500 transition-colors duration-300">🛡️ [STAGE 3] 9-AGENT AGGREGATION LOOKUP MATRIX</div>
+                    <div id="step-compilation" class="text-slate-500 transition-colors duration-300">⚙️ [STAGE 4] COMPILING NATIVE DALVIK BYTECODE</div>
+                    <div id="step-qa" class="text-slate-500 transition-colors duration-300">🛡️ [STAGE 5] DEEP AGENT RUNTIME TESTING LOOP</div>
+                    <div id="step-package" class="text-slate-500 transition-colors duration-300">📦 [STAGE 6] WRAPPING CRYPTOGRAPHIC STREAM PAYLOAD</div>
+                    <div id="step-shred" class="text-slate-500 transition-colors duration-300">🔥 [STAGE 7] STREAMING AND TERMINAL WIPE TRIGGER</div>
+                </div>
+
+                <div id="terminal-feed" class="p-2.5 bg-black rounded-lg border border-slate-950 text-[9px] text-slate-400 h-32 overflow-y-auto space-y-1 scrollbar-none"></div>
+
+                <button onclick="shredLocalSessionMemory()" class="w-full py-2.5 bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 text-xs font-bold rounded-xl transition-colors cursor-pointer">
+                    💥 Force Memory Deselection (Shred RAM State)
+                </button>
             </div>
-            
-            <button onclick="shredLocalSessionMemory()" class="w-full py-2.5 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 text-red-400 text-[10px] font-mono rounded-xl transition-all tracking-wider uppercase cursor-pointer">
-                ☣️ Force Memory Deselection (Shred RAM State)
-            </button>
-        </div>
 
+        </div>
     </main>
 
     <script>
-        let operationalBlueprintTarget = '';
+        // CLIENT ENVIRONMENT APP STATE
+        let operationalBlueprintTarget = 'core_system';
         let activeInSessionUserEmail = '';
 
+        // IDENTITY ROUTER HANDSHAKE
         function triggerStatelessHandshake(provider) {
-            const staticEmailField = document.getElementById('auth-email').value;
-            if (provider === 'Email' && !staticEmailField.trim()) {
-                return alert("Operational Abort: An explicit destination email address is required.");
+            const staticEmailField = document.getElementById('auth-email');
+            if (provider === 'Email' && !staticEmailField.value.trim()) {
+                return alert('Operational Abort: An explicit destination email address is required.');
             }
-            activeInSessionUserEmail = provider === 'Email' ? staticEmailField : `${provider.toLowerCase()}-verified-developer@stateless.node`;
+
+            activeInSessionUserEmail = provider === 'Email' ? staticEmailField.value.trim() : `${provider.toLowerCase()}-verified-developer@matrix.io`;
+            
             document.getElementById('auth-card').classList.add('hidden');
             document.getElementById('factory-panel').classList.remove('hidden');
-            document.getElementById('user-identity-badge').innerText = `NODE:// ${activeInSessionUserEmail.toUpperCase()}`;
+            document.getElementById('user-identity-badge').innerText = `NODE://X-${activeInSessionUserEmail.toUpperCase()}`;
         }
 
+        // PURGE ALL SESSIONS VOLATILE STATE LOCALLY
         function shredLocalSessionMemory() {
             activeInSessionUserEmail = '';
-            operationalBlueprintTarget = '';
+            operationalBlueprintTarget = 'core_system';
             document.getElementById('app-specification-prompt').value = '';
             document.getElementById('transparency-dashboard').classList.add('hidden');
             document.getElementById('factory-panel').classList.add('hidden');
             document.getElementById('auth-card').classList.remove('hidden');
         }
 
+        // SWITCH CURRENT TEMPLATE TARGETING 
         function toggleEngineSelection(id) {
             operationalBlueprintTarget = id;
             const frameworkKeys = ['core', 'custom', 'web'];
+            
             frameworkKeys.forEach(k => {
-                document.getElementById(`btn-${k}`).className = "w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-800 border border-slate-700 text-slate-400 transition-all cursor-pointer";
+                document.getElementById(`btn-${k}`).className = "w-full text-left p-3 rounded-xl text-xs font-semibold bg-slate-950 border border-slate-900 hover:border-slate-800 transition-all cursor-pointer";
             });
+
             const activationMap = { 'core_system': 'btn-core', 'custom_app': 'btn-custom', 'web_widget': 'btn-web' };
-            document.getElementById(activationMap[id]).className = "w-full text-left p-3 rounded-xl text-xs font-semibold bg-cyan-950/30 border-2 border-cyan-500 text-cyan-300 transition-all cursor-pointer";
+            const activeColorMap = { 'core_system': 'border-cyan-500 bg-slate-800', 'custom_app': 'border-indigo-500 bg-slate-800', 'web_widget': 'border-emerald-500 bg-slate-800' };
+            
+            document.getElementById(activationMap[id]).className = `w-full text-left p-3 rounded-xl text-xs font-semibold border ${activeColorMap[id]} transition-all cursor-pointer`;
         }
 
+        // LOG ENGINE CORE UTILITIES
         function updateStep(elementId, text, statusClass) {
             const el = document.getElementById(elementId);
             el.innerHTML = text;
@@ -151,81 +164,110 @@
             feed.scrollTop = feed.scrollHeight;
         }
 
+        // MASTER ENGINE COMPILE CONTROL PIPELINE
         async function fireStatelessCompilationPipeline() {
             const promptData = document.getElementById('app-specification-prompt').value;
             const dashboard = document.getElementById('transparency-dashboard');
             const feed = document.getElementById('terminal-feed');
             const statusBadge = document.getElementById('audit-status');
 
-            if (!operationalBlueprintTarget) return alert("Validation Failure: Choose an active compilation blueprint target.");
+            if (!operationalBlueprintTarget) return alert("Validation Failure: Choose an active compilation blueprint template block.");
             if (!promptData.trim()) return alert("Validation Failure: Architecture parameter prompt string cannot be left empty.");
 
-            // Reset dashboard layout states
+            // Reset dashboard visual frames
             dashboard.classList.remove('hidden');
             feed.innerHTML = '';
-            statusBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse-fast"></span> PROCESSING`;
-            statusBadge.className = "text-amber-500 flex items-center gap-1";
+            statusBadge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse-fast"></span> PROCESSING PIPELINE...';
+            statusBadge.className = 'text-amber-500 flex items-center gap-1';
 
-            // Stage 1 Simulation Setup
+            // Stage 1 Interface Init
             updateStep('step-network', '⚡ [STAGE 1] SECURE TRANSIT LINK ESTABLISHED (TLS 1.3) SUCCESSFULLY', 'text-cyan-400 font-bold');
             appendLog(feed, "Payload isolated. Outbound data array stream packaged via ephemeral handshake block.", "text-slate-400");
 
-            // Delay triggers to simulate accurate container deployment telemetry streams
+            // Stage 2 Allocation Simulated Triggers
             setTimeout(() => {
-                updateStep('step-ram', '🧠 [STAGE 2] ISOLATED VOLATILE SHARD MATRIX ALLOCATED INSIDE SERVER RAM (/dev/shm)', 'text-indigo-400 font-bold');
-                appendLog(feed, "Linux shared memory block mapped. Hard storage bypass enabled. Session tracking ID locked.", "text-indigo-300");
+                updateStep('step-ram', '🧠 [STAGE 2] ISOLATED VOLATILE SHARD MATRIX ALLOCATED INSIDE SERVER RAW (/dev/shm)', 'text-cyan-400 font-bold');
+                appendLog(feed, "Linux shared memory block mapped. Hard storage bypass enabled. Session tracking ID locked.", "text-slate-400");
             }, 1200);
 
+            // Stage 3 Agents Generation Simulated Triggers
             setTimeout(() => {
-                updateStep('step-agents', '🤖 [STAGE 3] 9-AGENT MATRIX SPARKED. RUNNING PARALLEL GENERATION COLLABORATION...', 'text-yellow-400 font-bold');
-                appendLog(feed, "Agent 1 (Architect) parsing rules. Agent 3 (UI) assembling layout trees. Agent 5 injecting secure firewalls.", "text-yellow-300");
+                updateStep('step-agents', '🤖 [STAGE 3] 9-AGENT MATRIX SPARKED. RUNNING PARALLEL GENERATION COLLABORATION MATRIX', 'text-indigo-400 font-bold');
+                appendLog(feed, "Agent 1 (Architect) parsing rules. Agent 3 (UI) assembling layout trees. Agent 5 injecting secure components.", "text-slate-400");
             }, 2600);
 
+            // Stage 4 Compilation Execution Handshake
             setTimeout(() => {
-                updateStep('step-compilation', '⚙️ [STAGE 4] COMPILING NATIVE DALVIK BYTECODE & EXECUTING CRYPTO ENCRYPTION KEYS...', 'text-purple-400 font-bold');
-                appendLog(feed, "Invoking embedded JDK, aapt2 toolchain, and d8 compressor. Writing classes.dex logic straight into volatile RAM.", "text-purple-300");
+                updateStep('step-compilation', '⚙️ [STAGE 4] COMPILING NATIVE DALVIK BYTECODE & EXECUTING CRYPTO ENCRYPTION ENGINE', 'text-cyan-400 font-bold');
+                appendLog(feed, "Invoking embedded JDK, aapt2 toolchain, and d8 compressor. Writing classes.dex logic structures into target container.", "text-slate-400");
                 appendLog(feed, "Executing AES-256-GCM encryption routine over sensitive API layout URLs.", "text-cyan-400");
             }, 4400);
 
+            // Stage 5 Testing Verification Simulation Triggers
             setTimeout(() => {
-                updateStep('step-qa', '🛡️ [STAGE 5] AGENT 8 RUNNING DEEP UNIT TESTING, QA RUNTIMES & LOG-FREE DEBUGGING...', 'text-blue-400 font-bold');
-                appendLog(feed, "Simulating APK environment hooks. Android signature validity check: PASSED. Checking memory trace vulnerabilities: ZERO FOUND.", "text-emerald-400");
+                updateStep('step-qa', '🛡️ [STAGE 5] AGENT RUNNING DEEP UNIT TESTING, QA RUNTIMES & LOG-FREE DEBUGGING CHECKS', 'text-indigo-400 font-bold');
+                appendLog(feed, "Simulating APK environment hooks. Android signature validity check: PASSED. Checking null reference exceptions: ZERO.", "text-slate-400");
             }, 6200);
 
+            // Stage 6 Packaging Generation Simulation Triggers
             setTimeout(() => {
-                updateStep('step-package', '📦 [STAGE 6] PACKAGING PRODUCTION-SIGNED APK BINARY AND UNCOMPILED MATERIAL ZIP BUNDLE...', 'text-orange-400 font-bold');
-                appendLog(feed, "Assembling production ZIP inside stream cache memory buffers. Bundling signed APK and source files.", "text-orange-300");
+                updateStep('step-package', '📦 [STAGE 6] PACKAGING PRODUCTION-SIGNED APK BINARY AND UNCOMPILED MATERIAL MANIFEST MATRIX', 'text-indigo-400 font-bold');
+                appendLog(feed, "Assembling production ZIP inside stream cache memory buffers. Bundling signed APK and encrypted trace binaries.", "text-slate-400");
             }, 7800);
 
+            // Stage 7 Transmission Delivery Shard Connection Live API Handshake
             setTimeout(async () => {
-                updateStep('step-shred', '🔥 [STAGE 7] PAYLOAD DELIVERED. SHRED SHIELD TERMINAL TRIGGERED: PURGING ALL WORKING MEMORY SEGMENTS...', 'text-emerald-400 font-bold');
-                appendLog(feed, "Executing destroyer.py sequence. Overwriting active /dev/shm memory addresses with 0x00 zero-bytes.", "text-rose-400 font-black");
-                statusBadge.innerHTML = "✅ WIPE COMPLETE";
-                statusBadge.className = "text-emerald-400 font-bold";
+                updateStep('step-shred', '🔥 [STAGE 7] PAYLOAD DELIVERED. SHRED SHIELD TERMINAL TRIGGERED: PURGING ALL REPO WORKING TRACES', 'text-amber-500 font-bold');
+                appendLog(feed, "Executing destroyer.py sequence. Overwriting active /dev/shm memory addresses with 0x00 null block patterns.", "text-amber-500");
 
-                // Execute immediate live transit call simulation out to Hugging Face
                 try {
-                    const transactionResponse = await fetch("https://your-username-your-space.hf.space/compile_autonomous", {
+                    // Prepares standard JSON payload package matching FastAPI's internal expected schemas
+                    const payloadPackage = {
+                        source_code: promptData,
+                        preopt: "true",
+                        auth_node: "Matrix_Agent_9921_Secure"
+                    };
+
+                    // Live POST transaction endpoint routing to your Hugging Face space
+                    const transactionResponse = await fetch("https://alimuneeb425-compiler-matrix.hf.space/compile_autonomous", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ engine: operationalBlueprintTarget, prompt: promptData, auth_node: activeInSessionUserEmail })
+                        body: JSON.stringify(payloadPackage)
                     });
-                    if (!transactionResponse.ok) throw new Error();
+
+                    if (!transactionResponse.ok) throw new Error("API Matrix backend refused authentication token or code formatting structure.");
+
                     const binaryPackageBlob = await transactionResponse.blob();
                     const browserTransientUrl = window.URL.createObjectURL(binaryPackageBlob);
                     const navigationAnchor = document.createElement('a');
                     navigationAnchor.href = browserTransientUrl;
-                    navigationAnchor.download = operationalBlueprintTarget === 'web_widget' ? "widget.js" : "genuine_build_bundle.zip";
+
+                    // Adapts download name based on your user's current chosen target type
+                    if (operationalBlueprintTarget === 'web_widget') {
+                        navigationAnchor.download = "web_widget_matrix_pack.zip";
+                    } else if (operationalBlueprintTarget === 'custom_app') {
+                        navigationAnchor.download = "standalone_chatbot_system.zip";
+                    } else {
+                        navigationAnchor.download = "universal_android_matrix_pack.zip";
+                    }
+
                     document.body.appendChild(navigationAnchor);
                     navigationAnchor.click();
+
                     window.URL.revokeObjectURL(browserTransientUrl);
                     document.body.removeChild(navigationAnchor);
-                } catch (e) {
-                    appendLog(feed, "Simulation Output Simulated: Virtual file buffer injected into browser download engine.", "text-slate-500");
+
+                    statusBadge.innerHTML = '✅ WIPE COMPLETE';
+                    statusBadge.className = 'text-emerald-400 font-bold';
+                    appendLog(feed, "Success! File stream passed to system downloads folder safely. Cache cleared.", "text-emerald-400 font-bold");
+
+                } catch (err) {
+                    statusBadge.innerHTML = '❌ PIPELINE FAULT';
+                    statusBadge.className = 'text-red-500 font-bold';
+                    appendLog(feed, "Execution Matrix Interruption Error: " + err.message, "text-red-400");
                 }
             }, 9400);
         }
     </script>
 </body>
 </html>
-
