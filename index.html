@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SovStack.dev // Enterprise Private Compiler Matrix</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; transition: all 0.25s ease; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .terminal-scroll::-webkit-scrollbar { width: 6px; }
+        .terminal-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        .terminal-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 99px; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+
+    <div class="w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-8 py-3">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="h-7 w-7 bg-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
+                    <span class="text-white font-mono font-black text-sm">S</span>
+                </div>
+                <span class="text-sm font-bold tracking-tight text-slate-900 font-mono">SovStack<span class="text-indigo-600">.dev</span></span>
+            </div>
+            <div class="flex items-center gap-2 px-2.5 py-1 text-[11px] font-mono font-semibold bg-emerald-50 text-emerald-700 rounded-full border border-emerald-200/60 uppercase">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                Lightweight Client Node Active
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-4 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="flex flex-col gap-6">
+                <div class="bg-white border border-slate-200/80 rounded-xl p-5 shadow-sm">
+                    <h2 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest mb-4">01 // Configuration Specs</h2>
+                    <div class="flex flex-col gap-4">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Application Nomenclature</label>
+                            <input type="text" id="custom-app-name-input" class="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 bg-slate-50 font-mono text-slate-800 outline-none focus:border-indigo-500 focus:bg-white transition-all" value="UniversalMatrixPack">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-600 uppercase tracking-wider mb-1.5">Vector Branding Asset</label>
+                            <input type="file" id="custom-logo-uploader" accept="image/*" class="w-full text-xs font-mono text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 flex flex-col gap-6">
+                <div class="bg-white border border-slate-200/80 rounded-xl p-5 shadow-sm">
+                    <h2 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest mb-3.5">02 // Active Core Target Blueprint</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <button type="button" id="blueprint_android" onclick="switchBlueprintTarget('android')" class="border-2 border-indigo-600 bg-indigo-50/30 text-indigo-900 rounded-xl p-4 text-left transition-all outline-none">
+                            <span class="text-xs font-bold block">Android Binary</span>
+                            <span class="text-[10px] text-slate-500 mt-1 block">Compiles a native, sandboxed app package.</span>
+                        </button>
+                        <button type="button" id="blueprint_character_ai" onclick="switchBlueprintTarget('character_ai')" class="border-2 border-slate-100 bg-slate-50/50 text-slate-800 rounded-xl p-4 text-left transition-all outline-none">
+                            <span class="text-xs font-bold block">Cross-Sector AI Agent</span>
+                            <span class="text-[10px] text-slate-500 mt-1 block">Interactive UI optimized for any industry category.</span>
+                        </button>
+                        <button type="button" id="blueprint_web_widget" onclick="switchBlueprintTarget('on_premise_web')" class="border-2 border-slate-100 bg-slate-50/50 text-slate-800 rounded-xl p-4 text-left transition-all outline-none">
+                            <span class="text-xs font-bold block">On-Premise Embed</span>
+                            <span class="text-[10px] text-slate-500 mt-1 block">Isolated web component container layout.</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200/80 rounded-xl p-5 shadow-sm flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">03 // System Specifications Engine</h2>
+                        <span id="target-badge-label" class="text-[10px] font-mono font-bold px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-100 rounded uppercase">Target: Android</span>
+                    </div>
+                    <textarea id="app-specification-prompt" rows="5" placeholder="Define your system features, requirements, and industry sector logic context rules here..." class="w-full p-4 font-mono text-xs border border-slate-200 rounded-xl bg-slate-50/50 text-slate-800 shadow-inner outline-none focus:border-indigo-500 focus:bg-white transition-all resize-none leading-relaxed"></textarea>
+                    
+                    <div class="flex items-center justify-end">
+                        <button onclick="fireStatelessCompilationPipeline()" class="px-5 py-2.5 font-mono font-bold uppercase tracking-wider text-xs bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-sm transition-all flex items-center gap-2">
+                            Execute Compile Pipeline
+                        </button>
+                    </div>
+                </div>
+
+                <div class="border border-slate-200 rounded-xl overflow-hidden font-mono text-xs shadow-sm bg-slate-900">
+                    <div class="bg-slate-950 p-3 flex items-center justify-between border-b border-slate-800">
+                        <span class="font-bold uppercase tracking-wider text-slate-400 text-[11px]">Live System Audit Stream</span>
+                    </div>
+                    <div id="terminal-live-audit-stream" class="p-4 h-48 overflow-y-auto text-slate-300 flex flex-col gap-1 terminal-scroll">
+                        <span class="text-slate-500">// Terminal environment active. Awaiting secure compilation trigger.</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let globalLoadedBase64LogoString = "";
+        let selectedBlueprintTarget = "android";
+
+        function switchBlueprintTarget(targetType) {
+            selectedBlueprintTarget = targetType;
+            const btnAndroid = document.getElementById('blueprint_android');
+            const btnCharacter = document.getElementById('blueprint_character_ai');
+            const btnWebWidget = document.getElementById('blueprint_web_widget');
+            const badgeLabel = document.getElementById('target-badge-label');
+
+            const standardStyle = "border-2 border-slate-100 bg-slate-50/50 text-slate-800 rounded-xl p-4 text-left transition-all outline-none";
+            const selectedStyle = "border-2 border-indigo-600 bg-indigo-50/30 text-indigo-900 rounded-xl p-4 text-left transition-all outline-none shadow-sm";
+
+            btnAndroid.className = standardStyle;
+            btnCharacter.className = standardStyle;
+            btnWebWidget.className = standardStyle;
+
+            if (targetType === 'android') {
+                btnAndroid.className = selectedStyle;
+                badgeLabel.innerText = "Target: Android Binary";
+                appendLog("Target container selected: Android Java Architecture Stack.", "text-cyan-400");
+            } else if (targetType === 'character_ai') {
+                btnCharacter.className = selectedStyle;
+                badgeLabel.innerText = "Target: Cross-Sector AI";
+                appendLog("Target container selected: Cross-Sector Specialized Interactive App UI.", "text-pink-400");
+            } else if (targetType === 'on_premise_web') {
+                btnWebWidget.className = selectedStyle;
+                badgeLabel.innerText = "Target: Web Embed";
+                appendLog("Target container selected: On-Premise Secure Webpage Component Framework.", "text-purple-400");
+            }
+        }
+
+        document.getElementById('custom-logo-uploader').addEventListener('change', function(event) {
+            const uploadedFile = event.target.files[0];
+            if (uploadedFile) {
+                const matrixReader = new FileReader();
+                matrixReader.onload = (e) => {
+                    globalLoadedBase64LogoString = e.target.result;
+                    appendLog("Custom graphic identity parsed to layout payload stream buffer.", "text-emerald-400");
+                };
+                matrixReader.readAsDataURL(uploadedFile);
+            }
+        });
+
+        function appendLog(text, colorClass = "text-slate-300") {
+            const stream = document.getElementById('terminal-live-audit-stream');
+            const ts = new Date().toISOString().slice(11, 19);
+            const entry = document.createElement('span');
+            entry.className = `${colorClass} break-all`;
+            entry.innerHTML = `<span class="text-slate-600 font-bold mr-2">[${ts}]</span>${text}`;
+            stream.appendChild(entry);
+            stream.scrollTop = stream.scrollHeight;
+        }
+
+        async function fireStatelessCompilationPipeline() {
+            const promptText = document.getElementById('app-specification-prompt').value;
+            const appName = document.getElementById('custom-app-name-input').value;
+            
+            if (!promptText.trim()) {
+                appendLog("⚠️ Compilation Halted: System input instructions cannot be null.", "text-red-500");
+                return;
+            }
+
+            appendLog("📡 Packaging structural rules. Transmitting build variables payload to backend server...", "text-indigo-400 font-bold");
+
+            const integratedTransactionPayload = {
+                target_blueprint: selectedBlueprintTarget,
+                custom_app_name: appName,
+                specification_prompt: promptText,
+                custom_logo_data: globalLoadedBase64LogoString,
+                auth_node: "Matrix_Agent_9921_Secure"
+            };
+
+            try {
+                // Point this endpoint right to your Hugging Face Space URL configuration
+                const endpoint = "https://alimuneeb425-compiler-matrix.hf.space/compile_autonomous";
+                
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(integratedTransactionPayload)
+                });
+
+                if (!response.ok) throw new Error(`Backend matrix flagged processing response fault code ${response.status}`);
+
+                appendLog("✓ Execution successful. Downloading production code package artifact...", "text-emerald-400 font-bold");
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${appName.toLowerCase()}_matrix_pack.zip`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                appendLog("🏁 Complete. ZIP deployment archive successfully saved to system storage.", "text-emerald-500 font-bold");
+
+            } catch (err) {
+                appendLog(`❌ Build pipeline fault: ${err.message}`, "text-red-500 font-bold");
+            }
+        }
+    </script>
+</body>
+</html>
+
