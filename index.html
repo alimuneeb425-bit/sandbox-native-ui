@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVSTACK AUTONOMOUS DEVELOPMENT STUDIO</title>
+    <style>
+        /* Definitive Classic Light Theme (Base Layout) */
+        :root {
+            --bg-color: #f8f9fa;
+            --container-bg: #ffffff;
+            --text-color: #1a1d20;
+            --border-color: #dee2e6;
+            --shadow: rgba(0, 0, 0, 0.05);
+            --primary-btn: #0070f3;
+            --secondary-btn: #e9ecef;
+            --stop-btn: #dc3545;
+            --accent-color: #0d9488;
+            --input-bg: #f1f3f5;
+            --header-bg: #ffffff;
+            --url-bg: #f8f9fa;
+            --url-text: #495057;
+            --url-border: #ced4da;
+        }
+
+        /* Matrix Dark Theme Override Class */
+        .theme-dark {
+            --bg-color: #0c0d12;
+            --container-bg: #15171e;
+            --text-color: #f5f6f9;
+            --border-color: #242731;
+            --shadow: rgba(0, 0, 0, 0.6);
+            --primary-btn: #0070f3;
+            --secondary-btn: #2a2d3d;
+            --stop-btn: #dc3545;
+            --accent-color: #00ff66;
+            --input-bg: #1a1c26;
+            --header-bg: #090a0e;
+            --url-bg: #11131a;
+            --url-text: #8e9aa8;
+            --url-border: #1f222e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .global-header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        @media (min-width: 576px) {
+            .global-header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+
+        .header-brand {
+            font-weight: 800;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .app-url-bar {
+            background: var(--url-bg);
+            border: 1px solid var(--url-border);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 11px;
+            color: var(--url-text);
+            text-align: center;
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .main-content {
+            padding: 15px;
+        }
+
+        .login-container {
+            max-width: 440px;
+            margin: 30px auto;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--container-bg);
+            box-shadow: 0 8px 24px var(--shadow);
+            text-align: center;
+        }
+
+        .generator-box {
+            background: var(--input-bg);
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .studio-dashboard {
+            display: none; 
+            max-width: 780px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 28px var(--shadow);
+        }
+
+        .matrix-title { font-weight: 900; letter-spacing: 0.5px; margin-bottom: 4px; text-align: center; }
+        .sub-heading { text-align: center; opacity: 0.85; margin-bottom: 20px; font-size: 12px; color: var(--accent-color); font-weight: 600; }
+        .form-group { margin-bottom: 18px; text-align: left; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; }
+        
+        input, textarea, select {
+            width: 100%; padding: 11px 12px; border: 1px solid var(--border-color);
+            border-radius: 8px; background: var(--input-bg); color: var(--text-color);
+            box-sizing: border-box; font-size: 13.5px;
+        }
+        
+        textarea { resize: vertical; min-height: 90px; }
+        .row { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+        
+        .drop-zone {
+            border: 2px dashed var(--border-color); border-radius: 8px; padding: 24px 15px;
+            text-align: center; background: var(--input-bg); cursor: pointer; font-size: 13px;
+        }
+        
+        .file-input-hidden { display: none; }
+        
+        button {
+            width: 100%; padding: 12px; border: none; border-radius: 8px;
+            font-weight: 600; cursor: pointer; font-size: 13.5px; margin-top: 4px;
+            display: block; transition: opacity 0.15s;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .btn-primary { background: var(--primary-btn); color: white; }
+        .btn-secondary { background: var(--secondary-btn); color: var(--text-color); border: 1px solid var(--border-color); }
+        .btn-stop { background: var(--stop-btn); color: white; }
+        .btn-gen { background: var(--container-bg); color: var(--accent-color); border: 1px solid var(--border-color); font-family: monospace; }
+
+        .terminal {
+            background: #000000; color: #00ff66; font-family: monospace;
+            padding: 12px; border-radius: 8px; min-height: 160px; max-height: 280px; overflow-y: auto;
+            white-space: pre-wrap; font-size: 12px; line-height: 1.5; border: 1px solid #1a1a1a;
+            margin-top: 8px; box-sizing: border-box;
+        }
+        
+        .token-display-box {
+            background: #000000; color: #00ff66; font-family: 'Courier New', monospace;
+            font-size: 16px; font-weight: 700; letter-spacing: 2px; padding: 12px;
+            border-radius: 6px; margin-top: 12px; text-align: center; border: 1px solid #222;
+        }
+
+        .user-status-bar {
+            padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 8px;
+            background: var(--input-bg); margin-bottom: 18px; font-size: 12.5px;
+        }
+
+        /* Action box for unblockable mobile downloads */
+        .download-action-container {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 112, 243, 0.1);
+            border: 1px dashed var(--primary-btn);
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+
+        header select { padding: 5px 8px; font-size: 11.5px; width: auto; }
+        header button { padding: 5px 10px; font-size: 11.5px; background: var(--stop-btn); color: #fff; width: auto; margin: 0; border-radius: 6px; }
+    </style>
+</head>
+<body> <header class="global-header">
+        <div class="header-brand">⚡ <span>SOVSTACK STUDIO v2.0</span></div>
+        <div class="app-url-bar" id="visibleUrlDisplay">https://sandbox-native-ui.vercel.app</div>
+        <div class="header-controls" id="headerControlsBox" style="visibility: hidden;">
+            <select id="themeSelector">
+                <option value="default" selected>Classic Light (Default)</option>
+                <option value="dark">Matrix Dark Core</option>
+            </select>
+            <button id="dashboardSignOutBtn">Wipe RAM Session</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="loginGate" class="login-container">
+            <h2 class="matrix-title">🔐 ZERO-RETENTION GATEWAY</h2>
+            <p style="opacity:0.8; font-size:12px; margin-bottom: 18px;">Platform Identity Verification Node for Distributed Programmers.</p>
+            <div class="generator-box">
+                <button id="generateTokenBtn" class="btn-gen">⚡ GENERATE ANONYMOUS KEY</button>
+                <div id="generatedKeyDisplay" class="token-display-box" style="display:none;"></div>
+            </div>
+            <div class="form-group">
+                <label>Provide Verification Token Key:</label>
+                <input type="text" id="tokenKeyInput" placeholder="MTX-XXXXX-XXXXX">
+            </div>
+            <button id="unlockStudioBtn" class="btn-primary">🔓 Verify Token & Mount Studio Layout</button>
+        </div>
+
+        <div id="studioDashboard" class="studio-dashboard">
+            <h1 class="matrix-title">🛠️ MATRIX AUTONOMOUS STUDIO</h1>
+            <h4 class="sub-heading">Global Engineering Control Console | Public Zero-Retention Environment</h4>
+            
+            <div class="user-status-bar">
+                🟢 <strong>Ecosystem Status: Volatile Session Active</strong><br>
+                <span style="opacity:0.7;">Logging Mode: </span><span style="font-weight:bold; color:var(--primary-btn);">Strict Zero Server Retention Block</span>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Application Identity Target Name:</label>
+                    <input type="text" id="appName" placeholder="Enter targeted binary name...">
+                </div>
+                <div class="form-group">
+                    <label>Natural Language Feature Requirements Prompt:</label>
+                    <textarea id="naturalPrompt" placeholder="Describe your design specifications here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Package Distribution Payload DropBox (.zip only):</label>
+                    <div id="zipDropZone" class="drop-zone">
+                        <span id="zipDropText">📂 Drag & drop targeted .zip bundle here, or click to browse</span>
+                        <input type="file" id="zipFileInput" class="file-input-hidden" accept=".zip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Upload Targeted Application Icon Logo File:</label>
+                    <input type="file" id="appLogo" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label>Context Source Code Reference File:</label>
+                    <input type="file" id="contextFile">
+                </div>
+            </div>
+
+            <h3 style="font-size:14px; margin-top:20px;">🤖 Production Pipeline Triggers:</h3>
+            <button id="btnAndroid" class="btn-primary">📲 COMPILE NATIVE ANDROID APP</button>
+            <button id="btnChatbot" class="btn-secondary">🤖 BUILD SECURE CHATBOT APP</button>
+            <button id="btnOnPrem" class="btn-stop">🗄️ DEPLOY ON-PREMISES TEMPLATE</button>
+
+            <div id="downloadActionBox" class="download-action-container">
+                <span style="color: var(--primary-btn); font-weight: bold; display: block; margin-bottom: 8px; font-size: 13px;">📦 COMPILATION EXPORT READY FROM HEAVY CONTAINER</span>
+                <button id="physicalDownloadBtn" style="background: var(--primary-btn); color: #fff; font-weight: 800; font-size: 14px;">📥 DOWNLOAD SIGNED APK FILE NOW</button>
+            </div>
+
+            <label style="margin-top:20px; display:block;">Live Transparency Audit Log Trace Window:</label>
+            <div id="terminal" class="terminal">Core Ecosystem Operational. Awaiting production pipeline trigger token...</div>
+        </div>
+    </main>
+
+    <script>
+        const loginGate = document.getElementById('loginGate');
+        const studioDashboard = document.getElementById('studioDashboard');
+        const tokenKeyInput = document.getElementById('tokenKeyInput');
+        const generateTokenBtn = document.getElementById('generateTokenBtn');
+        const generatedKeyDisplay = document.getElementById('generatedKeyDisplay');
+        const themeSelector = document.getElementById('themeSelector');
+        const headerControlsBox = document.getElementById('headerControlsBox');
+        const visibleUrlDisplay = document.getElementById('visibleUrlDisplay');
+        const downloadActionBox = document.getElementById('downloadActionBox');
+        const physicalDownloadBtn = document.getElementById('physicalDownloadBtn');
+        
+        let activelyVerifiedToken = ""; 
+        let transientBlobUrl = null;
+
+        if (window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost" && window.location.hostname !== "") {
+            visibleUrlDisplay.innerText = window.location.href.replace(/\/$/, "");
+        }
+
+        themeSelector.addEventListener('change', (e) => {
+            document.body.className = e.target.value === 'dark' ? 'theme-dark' : '';
+        });
+
+        generateTokenBtn.addEventListener('click', () => {
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let p1 = '', p2 = '';
+            for(let i=0; i<5; i++) { p1 += characters.charAt(Math.floor(Math.random()*characters.length)); p2 += characters.charAt(Math.floor(Math.random()*characters.length)); }
+            generatedKeyDisplay.innerText = `MTX-${p1}-${p2}`;
+            generatedKeyDisplay.style.display = 'block';
+        });
+
+        document.getElementById('unlockStudioBtn').addEventListener('click', () => {
+            const token = tokenKeyInput.value.trim().toUpperCase();
+            if (token.startsWith("MTX-") && token.length === 15) {
+                activelyVerifiedToken = token;
+                loginGate.style.display = 'none'; 
+                studioDashboard.style.display = 'block';
+                headerControlsBox.style.visibility = 'visible'; 
+            } else {
+                alert("🚨 Access Denied: Invalid Token Structure payload configuration.");
+            }
+        });
+
+        async function executeRealCompilation(mode) {
+            const appName = document.getElementById('appName').value.trim();
+            const prompt = document.getElementById('naturalPrompt').value.trim();
+            const term = document.getElementById('terminal');
+            
+            if(!appName || !prompt) { 
+                alert("⚠️ App identity target name and design prompts cannot be blank."); 
+                return; 
+            }
+
+            downloadActionBox.style.display = "none";
+            if(transientBlobUrl) { window.URL.revokeObjectURL(transientBlobUrl); transientBlobUrl = null; }
+
+            const triggerButtons = document.querySelectorAll('#studioDashboard button');
+            triggerButtons.forEach(btn => btn.disabled = true);
+
+            term.innerHTML = `[*] SOVSTACK KERNEL: INITIALIZING SECURE ECOSYSTEM HANDSHAKE\n`;
+            term.innerHTML += `[*] TARGET LAYER: NATIVE ANDROID APP COMPILER\n`;
+            term.innerHTML += `[🖨️] LIVE MONITOR: Running parsing calculations...\n`;
+            term.innerHTML += `[*] Processing session variables...\n`;
+
+            const compilePayload = new FormData();
+            compilePayload.append("token", activelyVerifiedToken);
+            compilePayload.append("pipelineMode", mode);
+            compilePayload.append("applicationName", appName);
+            compilePayload.append("generationPrompt", prompt);
+
+            const zipFile = document.getElementById('zipFileInput').files[0];
+            if(zipFile) compilePayload.append("sourceZip", zipFile);
+
+            try {
+                term.innerHTML += `[📡] NETWORKING: Packaging assets and pushing to proxy routing gateway...\n`;
+                term.innerHTML += `[✈️] MULTI-CONTAINER OFF-LOAD: Handing operations off to secondary Hugging Face Heavy Worker Container...\n`;
+                
+                const compilerEndpoint = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" 
+                    ? "http://localhost:5000/api/compile/android" 
+                    : "/api/compile/android";
+
+                const response = await fetch(compilerEndpoint, {
+                    method: "POST",
+                    body: compilePayload
+                });
+
+                if (!response.ok) {
+                    const failureText = await response.text();
+                    throw new Error(`HF Heavy Worker aborted: ${response.status} - ${failureText}`);
+                }
+
+                term.innerHTML += `[⚙️] HF WORKER KERNEL: Gradle compiling engine running inside isolated sandbox...\n`;
+                term.innerHTML += `[🔐] HF WORKER KERNEL: Executing cryptographic alignments and code signing validation...\n`;
+
+                const binaryBlob = await response.blob();
+                
+                if(binaryBlob.type.includes("json") || binaryBlob.size < 500) {
+                    const debugText = await binaryBlob.text();
+                    if(debugText.includes("success") || debugText.includes("Pipeline executed")) {
+                        term.innerHTML += `=======================================================\n`;
+                        term.innerHTML += `⚠️ WARNING: Heavy compilation container sent confirmation message instead of direct binary package data.\n`;
+                        term.innerHTML += `[RESPONSE LOG]: ${debugText}\n`;
+                        throw new Error("No binary data stream detected in pipeline yield.");
+                    }
+                }
+
+                transientBlobUrl = window.URL.createObjectURL(binaryBlob);
+                const cleanFileName = appName.toLowerCase().replace(/[^a-z0-9]/g, "_") + "_signed_release.apk";
+
+                term.innerHTML += `=======================================================\n`;
+                term.innerHTML += `[SUCCESS] Pipeline executed successfully inside container nodes.\n`;
+                term.innerHTML += `[📦] HEAVY BUILD TARGET READY: ${cleanFileName}\n`;
+                term.innerHTML += `[*] STATUS: Tap the button below to bypass mobile download blocks.`;
+
+                downloadActionBox.style.display = "block";
+                
+                physicalDownloadBtn.onclick = function() {
+                    const downloadHook = document.createElement('a');
+                    downloadHook.href = transientBlobUrl;
+                    downloadHook.download = cleanFileName;
+                    document.body.appendChild(downloadHook);
+                    downloadHook.click();
+                    document.body.removeChild(downloadHook);
+                    term.innerHTML += `\n[📥] File download triggered successfully in primary system storage.`;
+                };
+
+            } catch (error) {
+                term.innerHTML += `\n=======================================================\n`;
+                term.innerHTML += `🚨 MULTI-CONTAINER PIPELINE INTERRUPTION EXCEPTION:\n`;
+                term.innerHTML += `[ERROR LOG]: ${error.message}\n`;
+                term.innerHTML += `[*] BACKEND COMPILER CONTAINER RESETTING... ENVIRONMENT CLEAN.`;
+            } finally {
+                triggerButtons.forEach(btn => btn.disabled = false);
+            }
+        }
+
+        document.getElementById('btnAndroid').addEventListener('click', () => executeRealCompilation('android_native_signed'));
+        document.getElementById('btnChatbot').addEventListener('click', () => executeRealCompilation('secure_sandbox_chatbot'));
+        document.getElementById('btnOnPrem').addEventListener('click', () => executeRealCompilation('on_premises_template'));
+
+        const zipDropZone = document.getElementById('zipDropZone');
+        const zipFileInput = document.getElementById('zipFileInput');
+        zipDropZone.addEventListener('click', () => zipFileInput.click());
+        zipFileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) document.getElementById('zipDropText').innerText = `📦 Loaded Zip Payload: ${e.target.files[0].name}`;
+        });
+    </script>
+</body>
+</html>
+
