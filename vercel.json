@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR_HF_USERNAME-YOUR_SPACE_NAME.hf.space/api/:path*"
+      "destination": "https://alimuneeb425-compiler-matrix.hf.space/api/:path*"
     }
   ]
 }
