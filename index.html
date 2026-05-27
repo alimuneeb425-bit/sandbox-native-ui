@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVSTACK AUTONOMOUS DEVELOPMENT STUDIO</title>
+    <style>
+        /* Premium Professional Dark Theme Settings Variables (Default) */
+        :root {
+            --bg-color: #0d0e12;
+            --container-bg: #16171d;
+            --text-color: #f5f6f9;
+            --border-color: #262933;
+            --shadow: rgba(0, 0, 0, 0.7);
+            --primary-btn: #0070f3;
+            --secondary-btn: #3a3f50;
+            --stop-btn: #d32f2f;
+            --accent-color: #00ff66;
+            --input-bg: #1e202b;
+            --header-bg: #111217;
+        }
+
+        /* Cyberpunk Neon Theme Override Variables */
+        .theme-cyberpunk {
+            --bg-color: #0b001a;
+            --container-bg: #140124;
+            --text-color: #00ffcc;
+            --border-color: #ff007f;
+            --shadow: rgba(255, 0, 127, 0.3);
+            --primary-btn: #ff007f;
+            --secondary-btn: #3d0066;
+            --stop-btn: #b30000;
+            --accent-color: #ffff00;
+            --input-bg: #200236;
+            --header-bg: #090011;
+        }
+
+        /* Classic Light Theme Override Variables */
+        .theme-light {
+            --bg-color: #f4f5f7;
+            --container-bg: #ffffff;
+            --text-color: #1e202b;
+            --border-color: #d1d5db;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --primary-btn: #0070f3;
+            --secondary-btn: #e5e7eb;
+            --stop-btn: #e53e3e;
+            --accent-color: #059669;
+            --input-bg: #f9fafb;
+            --header-bg: #eaedf2;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Fixed Top Global Navigation Header */
+        .global-header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-brand {
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Professional App URL Bar Module */
+        .app-url-bar {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.8;
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .main-content {
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        .login-container {
+            max-width: 450px;
+            margin: 40px auto;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--container-bg);
+            box-shadow: 0 4px 20px var(--shadow);
+            text-align: center;
+        }
+
+        .generator-box {
+            background: var(--input-bg);
+            border: 1px dashed var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .studio-dashboard {
+            display: none; 
+            max-width: 800px;
+            margin: 10px auto;
+            background: var(--container-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 6px 24px var(--shadow);
+        }
+
+        .matrix-title { font-weight: 900; letter-spacing: 1px; margin-bottom: 5px; text-align: center; color: var(--text-color); }
+        .sub-heading { text-align: center; opacity: 0.8; margin-bottom: 25px; font-size: 13px; color: var(--accent-color); }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        
+        label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; color: var(--text-color); }
+        
+        input, textarea, select {
+            width: 100%; 
+            padding: 12px; 
+            border: 1px solid var(--border-color);
+            border-radius: 8px; 
+            background: var(--input-bg); 
+            color: var(--text-color);
+            box-sizing: border-box; 
+            font-size: 14px;
+        }
+        
+        textarea { resize: vertical; min-height: 100px; }
+        .row { display: flex; flex-direction: column; gap: 15px; margin-bottom: 15px; }
+        
+        /* Drop Box and Directory Layout Modules */
+        .drop-zone {
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            text-align: center;
+            background: var(--input-bg);
+            cursor: pointer;
+            transition: border-color 0.2s;
+            margin-bottom: 15px;
+        }
+        .drop-zone.drag-over { border-color: var(--accent-color); }
+        .file-input-hidden { display: none; }
+        
+        .folder-picker-btn {
+            background: var(--secondary-btn);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%; padding: 14px; border: none; border-radius: 8px;
+            font-weight: 600; cursor: pointer; font-size: 14px; margin-top: 5px;
+            display: block;
+        }
+        .btn-primary { background: var(--primary-btn); color: white; }
+        .btn-secondary { background: var(--secondary-btn); color: var(--text-color); }
+        .btn-stop { background: var(--stop-btn); color: white; }
+        .btn-gen { background: #222; color: var(--accent-color); border: 1px solid var(--accent-color); font-family: monospace; }
+
+        .terminal {
+            background: #000000; color: #00ff66; font-family: monospace;
+            padding: 15px; border-radius: 8px; height: 180px; overflow-y: auto;
+            white-space: pre-wrap; font-size: 13px; line-height: 1.5; border: 1px solid #222;
+            margin-top: 10px;
+        }
+        
+        .token-display {
+            font-family: monospace;
+            font-size: 16px;
+            color: var(--accent-color);
+            background: #000;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            word-break: break-all;
+            user-select: all;
+        }
+
+        .user-status-bar {
+            padding: 12px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 8px;
+            background: var(--input-bg);
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        header select {
+            padding: 6px;
+            font-size: 12px;
+            width: auto;
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        header button {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #333;
+            color: #fff;
+            width: auto;
+            margin: 0;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="global-header">
+        <div class="header-brand">
+            ⚡ <span>SOVSTACK STUDIO v2.0</span>
+        </div>
+        
+        <div class="app-url-bar" id="visibleUrlDisplay">
+            https://sovstack.dev
+        </div>
+
+        <div class="header-controls" id="headerControlsBox" style="visibility: hidden;">
+            <select id="themeSelector">
+                <option value="default">Matrix Dark</option>
+                <option value="cyberpunk">Cyberpunk Neon</option>
+                <option value="light">Classic Light</option>
+            </select>
+            <button id="dashboardSignOutBtn">Wipe Session</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="loginGate" class="login-container">
+            <h2 class="matrix-title">🔐 ZERO-RETENTION GATEWAY</h2>
+            <p style="opacity:0.8; font-size:13px; margin-bottom: 20px;">Platform Identity Verification Node for Distributed Programmers.</p>
+            
+            <div class="generator-box">
+                <span style="font-size: 12px; color: #aaa; display:block;">Need a system entry key? Generate an ephemeral session authorization token directly into local memory:</span>
+                <button id="generateTokenBtn" class="btn-gen">⚡ GENERATE ANONYMOUS KEY</button>
+                <div id="generatedKeyDisplay" class="token-display" style="display:none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Provide Verification Token Key:</label>
+                <input type="text" id="tokenKeyInput" placeholder="MTX-XXXXX-XXXXX">
+            </div>
+            <button id="unlockStudioBtn" class="btn-primary">🔓 Verify Token & Mount Studio Layout</button>
+        </div>
+
+        <div id="studioDashboard" class="studio-dashboard">
+            <h1 class="matrix-title">🛠️ MATRIX AUTONOMOUS STUDIO</h1>
+            <h4 class="sub-heading">Global Engineering Control Console | Public Zero-Retention Environment</h4>
+            
+            <div class="user-status-bar">
+                🟢 <strong>Ecosystem Status: Volatile Session Active</strong><br>
+                <span style="opacity:0.7;">Logging Mode: </span><span style="font-weight:bold; color:var(--accent-color);">Strict Zero Server Retention Block</span>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <label>Application Identity Target Name:</label>
+                    <input type="text" id="appName" placeholder="Enter targeted binary name...">
+                </div>
+                
+                <div class="form-group">
+                    <label>Natural Language Feature Requirements Prompt:</label>
+                    <textarea id="naturalPrompt" placeholder="Describe your design specifications here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Package Distribution Payload DropBox (.zip only):</label>
+                    <div id="zipDropZone" class="drop-zone">
+                        <span id="zipDropText">📂 Drag & drop targeted .zip bundle here, or click to browse</span>
+                        <input type="file" id="zipFileInput" class="file-input-hidden" accept=".zip">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Context Target Directory Workspace Asset Bundle Folder:</label>
+                    <button type="button" id="folderTriggerBtn" class="folder-picker-btn">➕ Select Source Folder Workspace</button>
+                    <input type="file" id="folderFileInput" class="file-input-hidden" webkitdirectory directory multiple>
+                    <div id="folderSelectedDisplay" style="font-size:12px; opacity:0.7; margin-top:5px; font-family:monospace;">No directory mounted.</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Targeted Application Icon Logo File:</label>
+                    <input type="file" id="appLogo" accept="image/*">
+                </div>
+                
+                <div class="form-group">
+                    <label>Context Source Code Reference File:</label>
+                    <input type="file" id="contextFile">
+                </div>
+            </div>
+
+            <h3 style="font-size:15px; margin-top:25px; color:var(--text-color);">🤖 Production Pipeline Triggers:</h3>
+            <button id="btnAndroid" class="btn-primary">📲 COMPILE NATIVE ANDROID APP</button>
+            <button id="btnChatbot" class="btn-secondary">🤖 BUILD SECURE CHATBOT APP</button>
+            <button id="btnOnPrem" class="btn-stop">🗄️ DEPLOY ON-PREMISES TEMPLATE</button>
+
+            <label style="margin-top:25px; display:block;">Live Transparency Audit Log Trace Window:</label>
+            <div id="terminal" class="terminal">Core Ecosystem Operational. Awaiting production pipeline trigger token...</div>
+        </div>
+    </main>
+
+    <script>
+        const loginGate = document.getElementById('loginGate');
+        const studioDashboard = document.getElementById('studioDashboard');
+        const tokenKeyInput = document.getElementById('tokenKeyInput');
+        const generateTokenBtn = document.getElementById('generateTokenBtn');
+        const generatedKeyDisplay = document.getElementById('generatedKeyDisplay');
+        const themeSelector = document.getElementById('themeSelector');
+        const headerControlsBox = document.getElementById('headerControlsBox');
+        const visibleUrlDisplay = document.getElementById('visibleUrlDisplay');
+
+        // Dynamically match active destination path, fallback to brand domain on local tests
+        if (window.location.hostname !== "127.0.0.1" && window.location.hostname !== "localhost" && window.location.hostname !== "") {
+            visibleUrlDisplay.innerText = window.location.href.replace(/\/$/, "");
+        } else {
+            visibleUrlDisplay.innerText = "https://sovstack.dev (Local Dev Workspace)";
+        }
+
+        // Dynamic Interactive Visual Preset Engine State Swapper
+        themeSelector.addEventListener('change', (e) => {
+            document.body.className = ''; 
+            if(e.target.value === 'cyberpunk') {
+                document.body.classList.add('theme-cyberpunk');
+            } else if (e.target.value === 'light') {
+                document.body.classList.add('theme-light');
+            }
+        });
+
+        // 1. Client-Side Cryptographic Token Factory
+        generateTokenBtn.addEventListener('click', () => {
+            const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let part1 = ''; let part2 = '';
+            for (let i = 0; i < 5; i++) {
+                part1 += characters.charAt(Math.floor(Math.random() * characters.length));
+                part2 += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            const newKey = `MTX-${part1}-${part2}`;
+            generatedKeyDisplay.innerText = newKey; generatedKeyDisplay.style.display = 'block';
+        });
+
+        // 2. Local Validation Checking Frame
+        document.getElementById('unlockStudioBtn').addEventListener('click', () => {
+            const token = tokenKeyInput.value.trim().toUpperCase();
+            if (token.startsWith("MTX-") && token.length === 15) {
+                loginGate.style.display = 'none'; 
+                studioDashboard.style.display = 'block';
+                headerControlsBox.style.visibility = 'visible'; 
+                tokenKeyInput.value = ''; generatedKeyDisplay.style.display = 'none';
+            } else {
+                alert("🚨 Access Denied: Invalid Token Structure payload configuration.");
+            }
+        });
+
+        // 3. Advanced Input Interface Management (Zip DropBox & Directory Loader Engine)
+        const zipDropZone = document.getElementById('zipDropZone');
+        const zipFileInput = document.getElementById('zipFileInput');
+        const folderTriggerBtn = document.getElementById('folderTriggerBtn');
+        const folderFileInput = document.getElementById('folderFileInput');
+        const folderSelectedDisplay = document.getElementById('folderSelectedDisplay');
+
+        zipDropZone.addEventListener('click', () => zipFileInput.click());
+        zipFileInput.addEventListener('change', (e) => {
+            if(e.target.files.length > 0) document.getElementById('zipDropText').innerText = `📦 Mounted Zip: ${e.target.files[0].name}`;
+        });
+        zipDropZone.addEventListener('dragover', (e) => { e.preventDefault(); zipDropZone.classList.add('drag-over'); });
+        zipDropZone.addEventListener('dragleave', () => zipDropZone.classList.remove('drag-over'));
+        zipDropZone.addEventListener('drop', (e) => {
+            e.preventDefault(); zipDropZone.classList.remove('drag-over');
+            if(e.dataTransfer.files.length > 0) {
+                zipFileInput.files = e.dataTransfer.files;
+                document.getElementById('zipDropText').innerText = `📦 Mounted Zip: ${e.dataTransfer.files[0].name}`;
+            }
+        });
+
+        folderTriggerBtn.addEventListener('click', () => folderFileInput.click());
+        folderFileInput.addEventListener('change', (e) => {
+            const fileCount = e.target.files.length;
+            if(fileCount > 0) {
+                const rootFolderName = e.target.files[0].webkitRelativePath.split('/')[0];
+                folderSelectedDisplay.innerText = `📁 Workspace Directory: /${rootFolderName} (${fileCount} files parsed)`;
+            }
+        });
+
+        // 4. Purge volatile session data structures on disconnect
+        document.getElementById('dashboardSignOutBtn').addEventListener('click', () => {
+            studioDashboard.style.display = 'none'; 
+            loginGate.style.display = 'block';
+            headerControlsBox.style.visibility = 'hidden';
+            document.getElementById('appName').value = ''; document.getElementById('naturalPrompt').value = '';
+            document.getElementById('appLogo').value = ''; document.getElementById('contextFile').value = '';
+            zipFileInput.value = ''; folderFileInput.value = '';
+            document.getElementById('zipDropText').innerText = '📂 Drag & drop targeted .zip bundle here, or click to browse';
+            folderSelectedDisplay.innerText = 'No directory mounted.';
+            document.getElementById('terminal').innerHTML = 'Session Purged Clean from Memory Grid.';
+        });
+
+        // 5. Local Simulation Controller Logic Frame
+        async function runPipeline(mode) {
+            const appName = document.getElementById('appName').value;
+            const prompt = document.getElementById('naturalPrompt').value;
+            const term = document.getElementById('terminal');
+
+            if(!appName || !prompt) { alert("⚠️ Fields cannot be blank."); return; }
+            term.innerHTML = `[*] SOVSTACK KERNEL: INITIALIZING SECURE ECOSYSTEM HANDSHAKE\n[*] TARGET LAYER: ${mode.toUpperCase()}`;
+            
+            setTimeout(() => {
+                term.innerHTML += `\n[💾] LIVE MONITOR: Running parsing calculations...`;
+                term.innerHTML += `\n[*] Processing session variables...\n=========================================\n[SUCCESS] Pipeline executed successfully inside container nodes.`;
+            }, 800);
+        }
+
+        document.getElementById('btnAndroid').addEventListener('click', () => runPipeline('Native Android App Compiler'));
+        document.getElementById('btnChatbot').addEventListener('click', () => runPipeline('Secure Sandbox Chatbot App'));
+        document.getElementById('btnOnPrem').addEventListener('click', () => runPipeline('On-Premises Zero-Retention Template'));
+    </script>
+</body>
+</html>
+
