@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovstack Multi-Agent Compilation Engine</title>
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --panel-bg: #111115;
+            --accent-green: #00ff66;
+            --accent-dim: #006622;
+            --text-main: #e0e0e8;
+            --text-muted: #666677;
+            --border-color: #22222a;
+            --error-red: #ff3333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+        }
+
+        .matrix-title {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .repo-badge {
+            display: inline-block;
+            font-size: 11px;
+            background: #1a1a24;
+            color: #8888aa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-top: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        .config-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .config-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .config-group label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .config-group select, .config-group input {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px;
+            font-family: monospace;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .config-group select:focus, .config-group input:focus {
+            border-color: var(--accent-green);
+        }
+
+        /* Upgraded Prompt Control Box Layout */
+        .prompt-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--panel-bg);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 5px;
+        }
+
+        .prompt-container:focus-within {
+            border-color: var(--accent-green);
+            box-shadow: 0 0 8px rgba(0, 255, 102, 0.1);
+        }
+
+        /* File picker button (+) */
+        .plus-btn {
+            background: #16161f;
+            color: var(--accent-green);
+            border: 1px solid var(--accent-dim);
+            border-radius: 4px;
+            width: 40px;
+            height: 40px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .plus-btn:hover {
+            background: var(--accent-dim);
+            color: #fff;
+        }
+
+        .prompt-textarea {
+            flex: 1;
+            background: transparent;
+            color: var(--text-main);
+            border: none;
+            outline: none;
+            resize: none;
+            height: 40px;
+            font-family: monospace;
+            font-size: 13px;
+            padding: 10px 5px 0 5px;
+        }
+
+        /* Submission compilation button */
+        .enter-btn {
+            background: var(--accent-green);
+            color: #000;
+            border: none;
+            border-radius: 4px;
+            padding: 0 16px;
+            height: 40px;
+            font-weight: bold;
+            font-family: monospace;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .enter-btn:hover {
+            opacity: 0.9;
+        }
+
+        .file-status-message {
+            color: #a8a8b2;
+            font-size: 11px;
+            margin-bottom: 15px;
+            padding-left: 48px;
+            min-height: 14px;
+        }
+
+        /* Dual Display Output Monitor Layout */
+        .terminal-display {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-height: 300px;
+        }
+
+        .console-panel {
+            flex: 1;
+            background: #050507;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            font-size: 11px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .log-stream, .manifest-box {
+            flex: 1;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            color: #cdd;
+        }
+
+        .manifest-box {
+            color: #79a3ff;
+        }
+
+        .system-log { color: var(--text-muted); }
+        .agent-log { color: var(--accent-green); }
+        .error-log { color: var(--error-red); }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="matrix-title">⚡ SOVSTACK PIPELINE CLIENT</div>
+        <div class="repo-badge">Frontend Architecture: PUBLIC REPO</div>
+    </header>
+
+    <div class="config-grid">
+        <div class="config-group">
+            <label>Application Variable Name</label>
+            <input type="text" id="appNameInput" value="SovstackCoreDeploy">
+        </div>
+        <div class="config-group">
+            <label>Target Execution Node</label>
+            <select id="targetNodeSelect">
+                <option value="ANDROID">ANDROID NODE</option>
+                <option value="IOS">IOS ENGINE</option>
+                <option value="WEB_STANDALONE">WEB STANDALONE</option>
+                <option value="CLOUD_CONTAINER">CLOUD CONTAINER</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="prompt-container">
+        <input type="file" id="fileAttachmentInput" style="display: none;" onchange="processLocalFile(this)" />
+        
+        <button type="button" class="plus-btn" title="Attach Blueprint Document" onclick="document.getElementById('fileAttachmentInput').click()">+</button>
+        
+        <textarea id="userPromptBox" class="prompt-textarea" placeholder="Input prompt code or system instructions..."></textarea>
+        
+        <button type="button" class="enter-btn" id="submitPipelineBtn" onclick="triggerCompilationPipeline()">ENTER</button>
+    </div>
+
+    <div id="fileStatusMessage" class="file-status-message"></div>
+
+    <div class="terminal-display">
+        <div class="console-panel">
+            <div class="panel-header">📟 Local System Event Stream Logs</div>
+            <div id="terminalConsole" class="log-stream"><span class="system-log">[SYSTEM] Multi-Agent console terminal initialization verified. Ready for stream context execution.</span></div>
+        </div>
+        
+        <div class="console-panel" style="flex: 0 0 130px; min-height: 130px;">
+            <div class="panel-header">📜 Immutable Build Manifest Receipts</div>
+            <div id="manifestOutput" class="manifest-box">--- NO RECENT BUILDS RECORDED ---</div>
+        </div>
+    </div>
+
+    <script>
+        // 🚨 CONFIGURATION ZONE: Update this link to point directly to your Public Codespace proxy URL
+        const BRAIN_API_URL = "https://automatic-space-computing-5000.app.github.dev"; 
+
+        let embeddedFileData = null;
+
+        // Visual helper function to print logs directly to your on-screen browser console pane
+        function printTerminalLog(text, logClass = 'system-log') {
+            const consoleDiv = document.getElementById('terminalConsole');
+            const logItem = document.createElement('div');
+            logItem.className = logClass;
+            logItem.innerText = `[${new Date().toLocaleTimeString()}] ${text}`;
+            consoleDiv.appendChild(logItem);
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+
+        // Reads files using the FileReader API and transforms them into Base64 packages
+        function processLocalFile(inputElement) {
+            const uploadedFile = inputElement.files[0];
+            if (!uploadedFile) return;
+
+            const fileReader = new FileReader();
+            fileReader.onload = function(event) {
+                embeddedFileData = {
+                    name: uploadedFile.name,
+                    size: uploadedFile.size,
+                    type: uploadedFile.type,
+                    base64Data: event.target.result
+                };
+                document.getElementById('fileStatusMessage').innerHTML = `📎 <strong style="color: #00ff66;">Attached:</strong> ${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)} KB)`;
+                printTerminalLog(`File attachment mapped successfully to compilation layer: ${uploadedFile.name}`);
+            };
+            fileReader.onerror = function() {
+                printTerminalLog("❌ Failed to parse local attachment payload.", "error-log");
+            };
+            fileReader.readAsDataURL(uploadedFile);
+        }
+
+        // Relays execution contexts downstream into your secure Codespace engine
+        async function triggerCompilationPipeline() {
+            const promptBox = document.getElementById('userPromptBox');
+            const submitButton = document.getElementById('submitPipelineBtn');
+            const currentPrompt = promptBox.value.trim();
+
+            if (!currentPrompt) {
+                printTerminalLog("Execution aborted: Prompt execution instructions cannot be left blank.", "error-log");
+                return;
+            }
+
+            // Lock interface states during compilation steps
+            submitButton.disabled = true;
+            submitButton.style.opacity = "0.4";
+            submitButton.innerText = "RUNNING";
+
+            // Extract variable parameters
+            const selectedTargetNode = document.getElementById('targetNodeSelect').value;
+            const chosenApplicationName = document.getElementById('appNameInput').value;
+
+            printTerminalLog("Initiating multi-agent context transmission sequence...");
+            printTerminalLog(`Relaying package structure to: ${BRAIN_API_URL}`);
+
+            const packagedPayload = {
+                user_prompt: currentPrompt,
+                target_node: selectedTargetNode,
+                application_name: chosenApplicationName,
+                payload_checksum: "SOV_" + Math.random().toString(36).substring(2, 9).toUpperCase(),
+                file_attachment: embeddedFileData
+            };
+
+            try {
+                const networkResponse = await fetch(`${BRAIN_API_URL}/api/compile-relay`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(packagedPayload)
+                });
+
+                if (!networkResponse.ok) {
+                    throw new Error(`HTTP Matrix error network return status: ${networkResponse.status}`);
+                }
+
+                const networkData = await networkResponse.json();
+
+                if (networkData.success) {
+                    printTerminalLog("🤖 9-Agent local processing matrix completed without exceptions!", "agent-log");
+                    printTerminalLog("✅ Output payload streams completely recovered.", "agent-log");
+                    
+                    // Display response content streams
+                    document.getElementById('manifestOutput').innerText = networkData.payload.manifest;
+                    
+                    // Clear inputs and reset file hooks safely
+                    embeddedFileData = null;
+                    document.getElementById('fileStatusMessage').innerText = "";
+                    document.getElementById('fileAttachmentInput').value = "";
+                    promptBox.value = "";
+                } else {
+                    printTerminalLog(`❌ Engine core error rejection: ${networkData.error}`, "error-log");
+                }
+
+            } catch (networkException) {
+                console.error(networkException);
+                printTerminalLog(`❌ Pipeline compilation failure: ${networkException.message}`, "error-log");
+                printTerminalLog("💡 Reminders: Verify your Codespace port 5000 visibility toggle is explicitly set to public, and confirm your local terminal process is listening.", "system-log");
+            } finally {
+                // Restore controls to active state
+                submitButton.disabled = false;
+                submitButton.style.opacity = "1";
+                submitButton.innerText = "ENTER";
+            }
+        }
+    </script>
+</body>
+</html>
+
